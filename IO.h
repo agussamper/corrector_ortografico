@@ -1,9 +1,9 @@
-#ifndef __LOADFILE_H__
-#define __LOADFILE_H__
+#ifndef __IO_H__
+#define __IO_H__
 
 #include "hashtable/tablahash.h"
 #include <stdio.h>
-#include <string.h> //TODO: sacar cuando saque maxLength
+#include <string.h>
 
 /**
  * Recibe la ruta de un archivo de texto y devuelve su contenido
@@ -15,7 +15,6 @@
  * El parámetro maxLength representa la máxima longitud de un string
  * a guardar en la tabla hash
  */
-//TODO: sacar maxLength
 TablaHash load_file(const char* path, const unsigned initialValue,
                      const size_t maxLength);
 

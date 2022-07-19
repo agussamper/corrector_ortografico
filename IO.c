@@ -3,7 +3,7 @@
  * 
  * usar una tabla hash para guardar el diccionario
  */
-#include "loadfile.h"
+#include "IO.h"
 #include "type_operations/strFunc.h"
 #include <string.h>
 #include <stdlib.h>
