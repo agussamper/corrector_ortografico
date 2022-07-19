@@ -6,7 +6,7 @@ void test_load_file() {
   clock_t t = clock();
 
 
-  TablaHash th = load_file("es1.txt", 100000, 100);
+  TablaHash th = load_file("words", 1000000, 100);
   printf("Tabla cargada\n");
 
   /*FILE* f = open_file("es1.txt", "r");

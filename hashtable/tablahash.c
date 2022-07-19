@@ -111,7 +111,7 @@ void tablahash_insertar(TablaHash tabla, void *dato) {
     else if (tabla->elems[idx].dist < dist) {
       void* aux = tabla->elems[idx].dato;
       tabla->elems[idx].dato = copiaDato;
-      copiaDato = aux; //FIXME: copia de la copia cunado inserta arriba
+      copiaDato = aux;
       unsigned distAnt = tabla->elems[idx].dist;
       tabla->elems[idx].dist = dist;
       dist = distAnt;

@@ -19,11 +19,10 @@ TablaHash load_file(const char* path, const unsigned initialValue,
                      const size_t maxLength) {
   FILE* file = open_file(path, "r");
 
-  TablaHash table = tablahash_crear(100000, (FuncionCopiadora)str_cpy,
+  TablaHash table = tablahash_crear(initialValue, (FuncionCopiadora)str_cpy,
                                    (FuncionComparadora)strcmp,
                                    (FuncionDestructora)str_free,
                                    (FuncionHash)str_KRHash);
-  
   char buf[maxLength];
   unsigned line = 0;
   while(fgets(buf, maxLength, file)) {
