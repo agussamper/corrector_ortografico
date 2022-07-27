@@ -80,7 +80,7 @@ void tablahash_destruir(TablaHash tabla) {
 void tablahash_insertar(TablaHash tabla, void *dato) { 
   
   // Si el factor de carga es mayor a 0.7 se redimensiona la tabla
-  if (tabla->numElems/tabla->capacidad > 0.7)
+  if (tabla->numElems*10/tabla->capacidad >= 7)
     tablahash_rehash(tabla);    
   
   // Calculamos la posicion del dato dado, de acuerdo a la funcion hash.
@@ -105,8 +105,8 @@ void tablahash_insertar(TablaHash tabla, void *dato) {
       return;
     }
     /* Intercambio lo que hay en la tabla por el dato a ingresar
-     * si la distancia de lo que hay en la tabla es mayor que la distancia
-     * que esta teniendo el dato de su slot
+     * si la distancia de lo que hay en la tabla es menor que la distancia
+     * que esta teniendo el dato a ingresar de su slot
      */
     else if (tabla->elems[idx].dist < dist) {
       void* aux = tabla->elems[idx].dato;
@@ -121,15 +121,17 @@ void tablahash_insertar(TablaHash tabla, void *dato) {
   }
 }
 
-
+//TODO: OPTIMIZAR
 void tablahash_rehash(TablaHash tabla) {
   CasillaHash* aux = malloc(sizeof(CasillaHash) * tabla->capacidad);
   assert(aux != NULL);
   for(int i = 0; i < tabla->capacidad; i++) {
     if(tabla->elems[i].dato != NULL)
       aux[i].dato = tabla->elems[i].dato;
+    else
+      aux[i].dato = NULL;
   }
-  
+
   free(tabla->elems);
   tabla->elems = malloc(sizeof(CasillaHash) * tabla->capacidad * 2);
   assert(tabla->elems != NULL);
@@ -142,9 +144,10 @@ void tablahash_rehash(TablaHash tabla) {
     tabla->elems[i].dist = 0;
   }
   for(int i = 0; i < capacidadAnt; i++) {
-    if(aux[i].dato != NULL)
+    if(aux[i].dato != NULL) {
       tablahash_insertar(tabla, aux[i].dato);
-    tabla->destr(aux[i].dato);
+      tabla->destr(aux[i].dato);
+    }
   }
   free(aux);
 }
