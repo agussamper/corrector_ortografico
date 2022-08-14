@@ -5,7 +5,7 @@
 
 Inf_str* inf_str_cpy(Inf_str* istr) {
   Inf_str* istr_cpy = malloc(sizeof(Inf_str));
-  istr_cpy->word = malloc(sizeof(char*) * (strlen(istr->word) + 1));
+  istr_cpy->word = malloc(sizeof(char) * (strlen(istr->word) + 1));
   strcpy(istr_cpy->word, istr->word);
   istr_cpy->line = istr->line;  
   return istr_cpy;
