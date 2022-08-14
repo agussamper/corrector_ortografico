@@ -13,6 +13,11 @@ typedef struct {
 Inf_str* inf_str_cpy(Inf_str* istr);
 
 /**
+ * Retorna la variable pasada por argumentos
+ */
+Inf_str* inf_str_return(Inf_str* istr);
+
+/**
  * Imprime la información en el dato
  * pasado por parámetros 
  */

@@ -29,8 +29,8 @@ Pila spell_check(TablaHash dictionary, const char* path) {
         istr->word = malloc(sizeof(char) * strlen(buf) + 1);
         strcpy(istr->word, buf);
         istr->line = line;      
-        pila_apilar(pila, istr, (FuncionCopia)inf_str_cpy);
-        inf_str_free(istr);
+        pila_apilar(pila, istr, (FuncionCopia)inf_str_return);
+        istr = NULL;
       }
       count = 0;
     }   
