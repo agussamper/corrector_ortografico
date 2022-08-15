@@ -4,8 +4,8 @@
 #include "type_operations/inf_str.h"
 
 void test_spell_check() {
-  TablaHash dic = load_file("dictionaries/es1.txt", 1000, 100);
-  Pila pila = spell_check(dic, "dictionaries/texto.txt");
+  TablaHash dic = load_file("dictionaries/words", 1000, 100);
+  Pila pila = spell_check(dic, "texts/bible.txt");
   pila_imprimir(pila, (FuncionVisitante)inf_str_visit);
   pila_destruir(pila, (FuncionDestructora)inf_str_free);
   tablahash_destruir(dic);  

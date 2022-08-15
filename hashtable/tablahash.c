@@ -121,34 +121,35 @@ void tablahash_insertar(TablaHash tabla, void *dato) {
   }
 }
 
-//TODO: OPTIMIZAR
+void* cpy_return(void* toReturn) {
+  return toReturn;
+}
+
 void tablahash_rehash(TablaHash tabla) {
-  CasillaHash* aux = malloc(sizeof(CasillaHash) * tabla->capacidad);
+  CasillaHash* aux = malloc(sizeof(CasillaHash) * tabla->numElems);
   assert(aux != NULL);
+  int numElements = 0;
   for(int i = 0; i < tabla->capacidad; i++) {
     if(tabla->elems[i].dato != NULL)
-      aux[i].dato = tabla->elems[i].dato;
-    else
-      aux[i].dato = NULL;
+      aux[numElements++].dato = tabla->elems[i].dato;
   }
 
   free(tabla->elems);
   tabla->elems = malloc(sizeof(CasillaHash) * tabla->capacidad * 2);
   assert(tabla->elems != NULL);
-  int numElemsAnt = tabla->numElems;
-  int capacidadAnt = tabla->capacidad;
   tabla->capacidad = tabla->capacidad * 2;
   tabla->numElems = 0;
   for(int i = 0; i < tabla->capacidad; i++) {
     tabla->elems[i].dato = NULL;
     tabla->elems[i].dist = 0;
   }
-  for(int i = 0; i < capacidadAnt; i++) {
-    if(aux[i].dato != NULL) {
+  FuncionCopiadora aux_cpy = tabla->copia;
+  tabla->copia = cpy_return;
+  for(int i = 0; i < numElements; i++) {
+    if(aux[i].dato != NULL)
       tablahash_insertar(tabla, aux[i].dato);
-      tabla->destr(aux[i].dato);
-    }
   }
+  tabla->copia = aux_cpy;
   free(aux);
 }
 
