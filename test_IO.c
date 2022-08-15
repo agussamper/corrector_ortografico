@@ -8,19 +8,19 @@ void test_load_file() {
   clock_t t = clock();
 
 
-  TablaHash th = load_file("es1.txt", 1000, 100);
+  TablaHash th = load_file("dictionaries/short_dict.txt", 1000, 100);
   printf("Tabla cargada\n");
 
-  /*FILE* f = open_file("es1.txt", "r");
+  FILE* f = open_file("dictionaries/short_dict.txt", "r");
   char buf[100];
   printf("\nPalabras en el diccionario:\n");
   while(fgets(buf, 100, f)) {
     size_t slen = strlen(buf); 
     buf[--slen] = '\0';
-    printf("%s'\n'", buf);
+    printf("'%s'\n", buf);
     assert(tablahash_buscar(th, buf));
   }
-  fclose(f);*/
+  fclose(f);
   tablahash_destruir(th);
 
   t = clock() - t;
