@@ -8,6 +8,11 @@
 char* str_cpy(const char* string);
 
 /**
+ * Imprime el string pasado por argumentos
+ */
+void str_visit(const char* str);
+
+/**
  * Destruye el valor al que apunte el puntero
  * pasado por argumentos 
  */
