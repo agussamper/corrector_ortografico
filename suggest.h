@@ -3,6 +3,7 @@
 
 #include "pila/pila.h"
 #include "hashtable/tablahash.h"
+#include "type_operations/char_str.h"
 
 /**
  * Intercambia cada par de caracteres adyacentes de str. Agrega
@@ -10,7 +11,8 @@
  * se encuentran en el diccionario y en strObt todas las palabras
  * obtenidas.
  */
-void technique1(Pila inDic, Pila strObt, TablaHash dic, char* str);
+void technique1(Pila inDic, Pila strObt, TablaHash dic,
+                TablaHash mem, Char_str* cstr);
 
 /**
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
@@ -19,14 +21,16 @@ void technique1(Pila inDic, Pila strObt, TablaHash dic, char* str);
  * todas las palabras obtenidas.
  * 
  */
-void technique2(Pila inDic, Pila strObt, TablaHash dic, char* str);
+void technique2(Pila inDic, Pila strObt, TablaHash dic,
+                TablaHash mem, Char_str* cstr);
 
 /**
  * Elimina cada caracter de str. Agrega en inDic las palabras
  * que luego de la modificación se encuentran en el diccionario
  * y en strObt todas las palabras obtenidas.
  */
-void technique3(Pila inDic, Pila strObt, TablaHash dic, char* str);
+void technique3(Pila inDic, Pila strObt, TablaHash dic,
+                TablaHash mem, Char_str* cstr);
 
 /**
  * Reemplaza cada caracter de la palabra con cada letra de la 'A'
@@ -34,7 +38,8 @@ void technique3(Pila inDic, Pila strObt, TablaHash dic, char* str);
  * se encuentran en el diccionario y en strObt todas las palabras
  * obtenidas.
  */
-void technique4(Pila inDic, Pila strObt, TablaHash dic, char* str);
+void technique4(Pila inDic, Pila strObt, TablaHash dic,
+                TablaHash mem, Char_str* cstr);
 
 /**
  * Spara str en un par de palabras agregando un espacio entre cada
@@ -43,5 +48,7 @@ void technique4(Pila inDic, Pila strObt, TablaHash dic, char* str);
  * se encuentran en el diccionario.
  */
 void technique5(Pila inDic, TablaHash dic, char* str);
+
+Pila create_suggestions(TablaHash dic, char* str);
 
 #endif
