@@ -72,7 +72,7 @@ void test_technique4(TablaHash dic) {
   pila_destruir(strObt, (FuncionDestructora)str_free);  
 }
 */
-void test_technique5(TablaHash dic) {
+/*void test_technique5(TablaHash dic) {
   Pila inDic = pila_crear();
   char str[] = "porque";
 
@@ -82,11 +82,12 @@ void test_technique5(TablaHash dic) {
   pila_imprimir(inDic, (FuncionVisitante)str_visit);
 
   pila_destruir(inDic, (FuncionDestructora)str_free);
-}
+}*/
 
 void test_create_suggestions(TablaHash dic) {
   //Pila suggestions = create_suggestions(dic, "aplauos");
-  Pila suggestions = create_suggestions(dic, "porsi");
+  //Pila suggestions = create_suggestions(dic, "adormecidosmurcielagos");
+  Pila suggestions = create_suggestions(dic, "holasi");
   if(!pila_es_vacia(suggestions))
     pila_imprimir(suggestions, (FuncionVisitante)str_visit);
   else

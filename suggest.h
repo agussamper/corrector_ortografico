@@ -5,6 +5,8 @@
 #include "hashtable/tablahash.h"
 #include "type_operations/char_str.h"
 
+//TODO: agregar explicacion en comentarios sobre para que sive mem
+
 /**
  * Intercambia cada par de caracteres adyacentes de str. Agrega
  * en inDic las palabras que luego de la modificación en str
@@ -47,7 +49,7 @@ void technique4(Pila inDic, Pila strObt, TablaHash dic,
  * Agrega en inDic las palabras que luego de la modificación
  * se encuentran en el diccionario.
  */
-void technique5(Pila inDic, TablaHash dic, char* str);
+void technique5(Pila inDic, TablaHash dic, TablaHash mem, char* str);
 
 Pila create_suggestions(TablaHash dic, char* str);
 

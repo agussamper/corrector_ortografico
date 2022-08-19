@@ -62,7 +62,7 @@ void technique3(Pila inDic, Pila strObt, TablaHash dic,
                 TablaHash mem, Char_str* cstr) {
   size_t slen = strlen(cstr->str);
   char mstr[slen];
-  mstr[slen] = '\0';
+  mstr[slen-1] = '\0';
   Char_str mcstr;
   mcstr.ch = cstr->ch;
   for(int i = 0; i < slen; i++) {
@@ -98,7 +98,7 @@ void technique4(Pila inDic, Pila strObt, TablaHash dic,
   }
 }
 
-void technique5(Pila inDic, TablaHash dic, char* str) {
+void technique5(Pila inDic, TablaHash dic, TablaHash mem, char* str) {
   size_t slen = strlen(str);
   for(int i = 0; i < slen; i++) {
     char str1[i+2];
@@ -107,18 +107,20 @@ void technique5(Pila inDic, TablaHash dic, char* str) {
     str1[i+1] = '\0';
     strncpy(str2, &str[i+1], slen-(i+1));
     str2[slen-(i+1)] = '\0';
-    if(tablahash_buscar(dic, str1) != NULL && tablahash_buscar(dic, str2) != NULL) {      
-      char toAdd[slen+2];
-      for(int j = 0; j < slen+1; j++) {
-        if(j < i+1)
-          toAdd[j] = str1[j];
-        else if (j == i+1) 
-          toAdd[j] = ' ';
-        else
-          toAdd[j] = str2[j-(i+2)];
-      }
-      toAdd[slen+1] = '\0';
-      pila_apilar(inDic, toAdd, (FuncionCopia)str_cpy);
+    char strconc[slen+2];
+    for(int j = 0; j < slen+1; j++) {
+      if(j < i+1)
+        strconc[j] = str1[j];
+      else if (j == i+1) 
+        strconc[j] = ' ';
+      else
+        strconc[j] = str2[j-(i+2)];
+    }
+    strconc[slen+1] = '\0';
+    if(tablahash_buscar(mem, strconc) == NULL) {
+      if(tablahash_buscar(dic, str1) != NULL &&
+         tablahash_buscar(dic, str2) != NULL)    
+        pila_apilar(inDic, strconc, (FuncionCopia)str_cpy);
     }
   }
 }
@@ -149,7 +151,7 @@ Pila create_suggestions(TablaHash dic, char* str) {
     technique2(inDic, strObt, dic, mem, &cstr);
     technique3(inDic, strObt, dic, mem, &cstr);
     technique4(inDic, strObt, dic, mem, &cstr);
-    technique5(inDic, dic, strInS);
+    technique5(inDic, dic, mem, strInS);
   }
   pila_destruir(strObt, (FuncionDestructora)char_str_free);
   tablahash_destruir(mem);
