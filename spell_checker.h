@@ -14,6 +14,9 @@
  * se guardan en minúscula e ignora todos los caracteres
  * distintos a [a-zA-Z]
  */
-Pila spell_check(TablaHash dictionary, const char* path);
+Pila spell_check(TablaHash dic, const char* path);
+
+//TODO: documentar
+void print_suggestions(TablaHash dic, const char* path);
 
 #endif

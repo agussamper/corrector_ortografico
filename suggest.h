@@ -110,7 +110,7 @@ void technique5(Pila inDic, TablaHash dic, TablaHash mem, char* str);
 
 /**
  * Dado un diccionario y una palabra, devuelve una pila con strings
- * similiares a str que se encuentran en el diccionario y obtienen
+ * similiares a str que se encuentran en el diccionario y se obtienen
  * aplicando las 5 técnicas.
  * TablaHash<char*>
  */

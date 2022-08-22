@@ -126,8 +126,8 @@ void technique5(Pila inDic, TablaHash dic, TablaHash mem, char* str) {
 }
 
 Pila create_suggestions(TablaHash dic, char* str) {
-  if(strlen(str) > 50)
-    return NULL;
+  if(strlen(str) > 29)
+    return pila_crear();
   Pila inDic = pila_crear();
   Pila strObt = pila_crear();
   TablaHash mem = tablahash_crear(100, (FuncionCopiadora)str_cpy,
@@ -138,7 +138,7 @@ Pila create_suggestions(TablaHash dic, char* str) {
   cstr.str = str;
   cstr.ch = 0;
   pila_apilar(strObt, &cstr, (FuncionCopia)char_str_cpy);
-  char strInS[50];
+  char strInS[30];
   int m = 0;
   Char_str* top;
   while(pila_size(inDic) <= 5 && !pila_es_vacia(strObt)) {

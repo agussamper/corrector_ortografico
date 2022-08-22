@@ -125,3 +125,7 @@ void test_pila() {
   test_pila_desapilar();
   test_pila_toArr_char();
 }
+
+int main() {
+  test_pila();
+}
