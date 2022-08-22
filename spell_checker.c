@@ -1,6 +1,3 @@
-// verifica si las palabras insertadas en 
-// la entrada son correctas
-
 #include "spell_checker.h"
 #include "type_operations/int_str.h"
 #include "type_operations/strFunc.h"
