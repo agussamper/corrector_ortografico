@@ -25,14 +25,16 @@ void technique1(Pila inDic, Pila strObt, TablaHash dic,
   Char_str mcstr;
   mcstr.ch = cstr->ch;
   for(int i = 0; i < slen-1; i++) {        
-    char aux = mstr[i];
-    mstr[i] = mstr[i+1];
-    mstr[i+1] = aux;    
-    mcstr.str = mstr;    
-    addToStacks(inDic, strObt, dic, mem, &mcstr);
-    aux = mstr[i];
-    mstr[i] = mstr[i+1];
-    mstr[i+1] = aux;
+    if(mstr[i] != mstr[i+1]) {
+      char aux = mstr[i];
+      mstr[i] = mstr[i+1];
+      mstr[i+1] = aux;    
+      mcstr.str = mstr;    
+      addToStacks(inDic, strObt, dic, mem, &mcstr);
+      aux = mstr[i];
+      mstr[i] = mstr[i+1];
+      mstr[i+1] = aux;
+    }
   }
 }
 
