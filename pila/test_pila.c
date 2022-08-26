@@ -32,7 +32,7 @@ void test_pila_es_vacia() {
   pila_destruir(pila, int_destruir);
 }
 
-void* test_pila_tope() {
+void test_pila_tope() {
   Pila pila = pila_crear();
   int nums[] = {0, 1, 2, 3};
   for(int i = 0; i < 4; i++)

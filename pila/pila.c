@@ -14,6 +14,7 @@ struct GNode {
 
 Pila pila_crear() {
   Pila newPila = malloc(sizeof(struct _Pila));
+  assert(newPila);
   newPila->top = NULL;
   newPila->size = 0; 
   return newPila;

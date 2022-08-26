@@ -9,7 +9,7 @@ void test_pila_crear();
 
 void test_pila_es_vacia();
 
-void* test_pila_tope();
+void test_pila_tope();
 
 void test_pila_size();
 
