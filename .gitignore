@@ -1,5 +1,6 @@
-a.out
 dictionaries
 commands.txt
 .vscode
 texts
+*.o
+*.out

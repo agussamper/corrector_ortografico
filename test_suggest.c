@@ -87,12 +87,7 @@ void test_technique4(TablaHash dic) {
 void test_create_suggestions(TablaHash dic) {
   //Pila suggestions = create_suggestions(dic, "aplauos");
   //Pila suggestions = create_suggestions(dic, "adormecidosmurcielagos");
-  Pila suggestions = create_suggestions(dic, "holasi");
-  if(!pila_es_vacia(suggestions))
-    pila_imprimir(suggestions, (FuncionVisitante)str_visit);
-  else
-    printf("No se encontraron sugerencias\n");
-  pila_destruir(suggestions, (FuncionDestructora)str_free);
+  create_suggestions(dic, "holasi");
 }
 
 int main() {  

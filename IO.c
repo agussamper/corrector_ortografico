@@ -29,7 +29,7 @@ TablaHash load_file(const char* path, const unsigned initialValue,
     size_t slen = strlen(buf); 
     if (slen - 1 > maxLength) { // Resto 1 ya que no cuento el '\n'
       //TODO: cambiar printf por perror(s)
-      printf("Texto en línea %d con longitud %d, supera la longitud máxima de %d",
+      printf("Texto en línea %d con longitud %ld, supera la longitud máxima de %ld",
               line, slen, maxLength);
       exit(1);
     }

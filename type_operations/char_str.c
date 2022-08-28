@@ -16,7 +16,7 @@ Char_str* char_str_return(Char_str* cstr) {
 }
 
 void char_str_visit(Char_str* cstr) {
-  printf("palabra: %s, num: %c", cstr->str, cstr->ch);
+  printf("palabra: %s, num: %d", cstr->str, cstr->ch);
   puts("");
 }
 
