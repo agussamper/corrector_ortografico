@@ -4,6 +4,7 @@
 #include "hashtable/tablahash.h"
 #include "queue/queue.h"
 
+//TODO: cambiar docuementacion de acuerdo a ultimos cambios
 /**
  * Recibe una tabla hash que representa un diccionario
  * y la ruta de un archivo de texto.
@@ -14,9 +15,6 @@
  * se guardan en minúscula e ignora todos los caracteres
  * distintos a [a-zA-Z]
  */
-Queue spell_check(TablaHash dic, const char* path);
-
-//TODO: documentar
-void print_suggestions(TablaHash dic, const char* path);
+void spell_check(TablaHash dic, const char* path);
 
 #endif
