@@ -4,17 +4,14 @@
 #include "hashtable/tablahash.h"
 #include "queue/queue.h"
 
-//TODO: cambiar docuementacion de acuerdo a ultimos cambios
 /**
- * Recibe una tabla hash que representa un diccionario
- * y la ruta de un archivo de texto.
- * Devuelve en una cola las palabras del archivo de texto 
- * que no se encuentran en el diccionario y en la línea
- * en que se encuentran, para esto cada nodo de la cola
- * guarda una estructura de tipo inf_str. Las palabras 
- * se guardan en minúscula e ignora todos los caracteres
- * distintos a [a-zA-Z]
+ * Recibe una tabla hash que representa un diccionario,
+ * la ruta de un archivo de texto de entrada y de un archivo
+ * salida, si el archivo de salida no existe lo crea.
+ * Escribe en el archivo de salida sugerencias para las
+ * palabras del archivo de entrada que no se encuentran
+ * en el diccionario.
  */
-void spell_check(TablaHash dic, const char* path);
+void spell_check(TablaHash dic, const char* pathIn, const char* pathOut);
 
 #endif

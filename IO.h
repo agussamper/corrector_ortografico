@@ -11,12 +11,8 @@
  * será lo que se encuentra en cada linea. Por ejemplo, si en la
  * primer linea se encuentra la oración "Hola agustín.", eso es lo
  * que se guardará en algún slot de la tabla.
- * El parámetro initialValue representa el valor inicial de la tabla hash.
- * El parámetro maxLength representa la máxima longitud de un string
- * a guardar en la tabla hash
  */
-TablaHash load_file(const char* path, const unsigned initialValue,
-                     const size_t maxLength);
+TablaHash load_file(const char* path);
 
 /**
  * Abre un archivo en la ruta y en el modo indicado y lo devuelve,

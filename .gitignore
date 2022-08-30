@@ -4,3 +4,7 @@ commands.txt
 texts
 *.o
 *.out
+test_IO.c
+test_spell_checker.c
+test_suggest.c
+out.txt

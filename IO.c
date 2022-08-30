@@ -15,25 +15,18 @@ FILE* open_file(const char* path, const char* mode) {
     return file;
 }
 
-TablaHash load_file(const char* path, const unsigned initialValue,
-                     const size_t maxLength) {
+TablaHash load_file(const char* path) {
   FILE* file = open_file(path, "r");
-
-  TablaHash table = tablahash_crear(initialValue, (FuncionCopiadora)str_cpy,
+  int bufSize = 50;
+  TablaHash table = tablahash_crear(1000, (FuncionCopiadora)str_cpy,
                                    (FuncionComparadora)strcmp,
                                    (FuncionDestructora)str_free,
                                    (FuncionHash)str_KRHash);
-  char buf[maxLength];
+  char buf[bufSize];
   unsigned line = 0;
-  while(fgets(buf, maxLength, file)) {
-    size_t slen = strlen(buf); 
-    if (slen - 1 > maxLength) { // Resto 1 ya que no cuento el '\n'
-      //TODO: cambiar printf por perror(s)
-      printf("String en línea %d con longitud %ld, supera la longitud máxima de %ld",
-              line, slen, maxLength);
-      exit(1);
-    }
-    buf[--slen] = '\0';
+  while(fgets(buf, bufSize, file)) {
+    size_t slen = strlen(buf);
+    buf[--slen] = '\0'; //Resto 1 a slen por el '\n'
     tablahash_insertar(table, buf);
     line++;
   }
