@@ -1,5 +1,5 @@
 #include "contacto.h"
-#include "utils.h"
+#include "../type_operations/strFunc.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,7 +53,7 @@ void contacto_destruir(Contacto *contacto) {
  * Hashear un contacto por su nombre.
  */
 unsigned contacto_heashear(Contacto *contacto) {
-  return KRHash(contacto->nombre);
+  return str_KRHash(contacto->nombre);
 }
 
 /**

@@ -79,8 +79,8 @@ void tablahash_destruir(TablaHash tabla) {
 
 void tablahash_insertar(TablaHash tabla, void *dato) { 
   
-  // Si el factor de carga es mayor a 0.7 se redimensiona la tabla
-  if (tabla->numElems*10/tabla->capacidad >= 7)
+  // Si el factor de carga es mayor a 0.6 se redimensiona la tabla
+  if (tabla->numElems*10/tabla->capacidad >= 6)
     tablahash_rehash(tabla);    
   
   // Calculamos la posicion del dato dado, de acuerdo a la funcion hash.
@@ -126,31 +126,25 @@ void* cpy_return(void* toReturn) {
 }
 
 void tablahash_rehash(TablaHash tabla) {
-  CasillaHash* aux = malloc(sizeof(CasillaHash) * tabla->numElems);
-  assert(aux != NULL);
-  int numElements = 0;
-  for(int i = 0; i < tabla->capacidad; i++) {
-    if(tabla->elems[i].dato != NULL)
-      aux[numElements++].dato = tabla->elems[i].dato;
-  }
-
-  free(tabla->elems);
-  tabla->elems = malloc(sizeof(CasillaHash) * tabla->capacidad * 2);
+  CasillaHash* oldElems = tabla->elems;
+  unsigned capacidadAnt = tabla->capacidad;
+  tabla->capacidad = capacidadAnt * 2;   
+  tabla->elems = malloc(sizeof(CasillaHash) * tabla->capacidad);  
   assert(tabla->elems != NULL);
-  tabla->capacidad = tabla->capacidad * 2;
-  tabla->numElems = 0;
   for(int i = 0; i < tabla->capacidad; i++) {
     tabla->elems[i].dato = NULL;
     tabla->elems[i].dist = 0;
-  }
+  }  
+  tabla->numElems = 0;
+
   FuncionCopiadora aux_cpy = tabla->copia;
   tabla->copia = cpy_return;
-  for(int i = 0; i < numElements; i++) {
-    if(aux[i].dato != NULL)
-      tablahash_insertar(tabla, aux[i].dato);
+  for(int i = 0; i < capacidadAnt; i++) {
+    if(oldElems[i].dato != NULL) 
+      tablahash_insertar(tabla, oldElems[i].dato);
   }
   tabla->copia = aux_cpy;
-  free(aux);
+  free(oldElems);
 }
 
 /**
@@ -180,6 +174,7 @@ void *tablahash_buscar(TablaHash tabla, void *dato) {
 /**
  * Elimina el dato de la tabla que coincida con el dato dado.
  */
+//TODO: revisar
 void tablahash_eliminar(TablaHash tabla, void *dato) {
 
   // Calculamos la posicion del dato dado, de acuerdo a la funcion hash.

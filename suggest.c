@@ -31,100 +31,116 @@ void checkSuggestion(unsigned *suggestions, Queue strObtained, TablaHash dic,
 
 void technique1(unsigned *suggestions, Queue strObt, TablaHash dic,
                 TablaHash mem, Char_str* cstr) {
-  size_t slen = strlen(cstr->str);  
-  char mstr[slen+1];
-  strcpy(mstr, cstr->str);
+  char modifiedstr[50];
+  strcpy(modifiedstr, cstr->str);
   Char_str mcstr;
   mcstr.ch = cstr->ch;
-  for(int i = 0; i < slen-1; i++) {        
-    if(mstr[i] != mstr[i+1]) {
-      char aux = mstr[i];
-      mstr[i] = mstr[i+1];
-      mstr[i+1] = aux;    
-      mcstr.str = mstr;    
+  for(int i = 0; modifiedstr[i+1] != '\0'; i++) {        
+    if(modifiedstr[i] != modifiedstr[i+1]) {
+      char aux = modifiedstr[i];
+      modifiedstr[i] = modifiedstr[i+1];
+      modifiedstr[i+1] = aux;    
+      mcstr.str = modifiedstr;    
       checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
-      aux = mstr[i];
-      mstr[i] = mstr[i+1];
-      mstr[i+1] = aux;
+      aux = modifiedstr[i];
+      modifiedstr[i] = modifiedstr[i+1];
+      modifiedstr[i+1] = aux;
     }
   }
 }
 
 void technique2(unsigned *suggestions, Queue strObt, TablaHash dic, 
                 TablaHash mem, Char_str* cstr) {
-  size_t slen = strlen(cstr->str);
-  char mstr[slen+2];
-  mstr[slen+1] = '\0';
+  char modifiedstr[50];
   Char_str mcstr;
   mcstr.ch = cstr->ch;
-  for(int i = 0; i < slen + 1; i++) {        
-    for(int j = 0; j < slen + 1; j++) {
+  char flag = 0;
+  int k1 = 100;
+  for(int i = 0; i < k1; i++) {
+    char flag2 = 0;
+    int k2 = 100;
+    int j = 0;    
+    for(; j < k2; j++) {
       if(j < i)
-        mstr[j] = cstr->str[j];
+        modifiedstr[j] = cstr->str[j];
       else if(j > i)
-        mstr[j] = cstr->str[j-1];
+        modifiedstr[j] = cstr->str[j-1];
+      if(flag2 == 0 && cstr->str[j] == '\0') {
+        k2 = j + 1;
+        flag2 = 1;
+      }
     }
-    for(int j = 'a'; j < 'z'; j++) {
-      mstr[i] = j;
-      mcstr.str = mstr;      
-      checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
-    }    
+    modifiedstr[j] = '\0';
+    for(int j = 'a'; j <= 'z'; j++) {
+      if(j != cstr->str[i]) {
+        modifiedstr[i] = j;
+        mcstr.str = modifiedstr;      
+        checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
+      }
+    }
+    if(flag == 0 && cstr->str[i] == '\0') {
+      k1 = i + 1;    
+      flag = 1;
+    }
   }
 }
 
 void technique3(unsigned *suggestions, Queue strObt, TablaHash dic,
                 TablaHash mem, Char_str* cstr) {
-  size_t slen = strlen(cstr->str); //TODO: funcion con caso especial si todos los caracteres son iguales para no correr todo el resto
-  if(slen > 1) {    
-    char mstr[slen];
-    mstr[slen-1] = '\0';
+  if(cstr->str[1] != '\0') {    
+    char modifiedstr[50];
     Char_str mcstr;
     mcstr.ch = cstr->ch;
-    for(int i = 0; i < slen; i++) {
-      for(int j = 0; j < slen; j++) {
-        if(j < i)
-          mstr[j] = cstr->str[j];
-        else if(j > i)
-          mstr[j-1] = cstr->str[j];
-      }    
-      mcstr.str = mstr;
-      checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
+    for(int i = 0; cstr->str[i] != '\0'; i++) {
+      if(cstr->str[i] != cstr->str[i+1]) {
+        int j = 0;
+        for(; cstr->str[j] != '\0'; j++) {
+          if(j < i)
+            modifiedstr[j] = cstr->str[j];
+          else if(j > i)
+            modifiedstr[j-1] = cstr->str[j];
+        }
+        modifiedstr[j-1] = '\0';    
+        mcstr.str = modifiedstr;
+        checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
+      }
     }
   }
 }
 
 void technique4(unsigned *suggestions, Queue strObt, TablaHash dic,
                 TablaHash mem, Char_str* cstr) {
-  size_t slen = strlen(cstr->str);
-  char mstr[slen+1];
-  strcpy(mstr, cstr->str);
   char aux;
-  Char_str mcstr;
-  mcstr.ch = cstr->ch;
-  for(int i = 0; i < slen; i++) {
-    aux = mstr[i];
-    for(int j = 'a' ; j < 'z'; j++) {
+  for(int i = 0; cstr->str[i] != '\0'; i++) {
+    aux = cstr->str[i];
+    for(int j = 'a' ; j <= 'z'; j++) {
       if(aux != j) {
-        mstr[i] = j;
-        mcstr.str = mstr;
-        checkSuggestion(suggestions, strObt, dic, mem, &mcstr);
+        cstr->str[i] = j;
+        checkSuggestion(suggestions, strObt, dic, mem, cstr);
       }
     }
-    mstr[i] = aux;
+    cstr->str[i] = aux;
   }
 }
 
 void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem, char* str) {
-  size_t slen = strlen(str);
-  for(int i = 0; i < slen; i++) {
-    char str1[i+2];
-    char str2[slen-i];    
-    strncpy(str1, str, i+1);
-    str1[i+1] = '\0';
-    strncpy(str2, &str[i+1], slen-(i+1));
-    str2[slen-(i+1)] = '\0';
-    char strconcat[slen+2];
-    for(int j = 0; j < slen+1; j++) {
+  for(int i = 0; str[i+1] != '\0'; i++) {
+    char str1[50];
+    char str2[50];
+    char strconcat[100];    
+
+    int m = 0;
+    for(int m = 0; m < i+1; m++)
+      str1[m] = str[m];
+    str1[m] = '\0';
+
+    int k = i+1; 
+    for(; str[k] != '\0'; k++)
+      str2[k-(i+1)] = str[k];
+    strconcat[k+1] = '\0';
+    str2[k] = '\0';
+
+    for(int j = 0; j < k+1; j++) {
       if(j < i+1)
         strconcat[j] = str1[j];
       else if (j == i+1) 
@@ -132,12 +148,12 @@ void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem, char* str) 
       else
         strconcat[j] = str2[j-(i+2)];
     }
-    strconcat[slen+1] = '\0';
     if(tablahash_buscar(mem, strconcat) == NULL) {
-      if(tablahash_buscar(dic, str1) != NULL &&
-         tablahash_buscar(dic, str2) != NULL) {
-         print_suggestion(suggestions, strconcat);
-         tablahash_insertar(mem, strconcat);
+      if(tablahash_buscar(dic, str1) != NULL) {
+        if(tablahash_buscar(dic, str2) != NULL) {
+          print_suggestion(suggestions, strconcat);
+          tablahash_insertar(mem, strconcat);
+        }
       }
     }
   }
@@ -166,7 +182,7 @@ void create_suggestions(TablaHash dic, char* str) {
     technique2(&suggestions, strsObtained, dic, mem, &cstr);
     technique3(&suggestions, strsObtained, dic, mem, &cstr);
     technique4(&suggestions, strsObtained, dic, mem, &cstr);
-    technique5(&suggestions, dic, mem, strInQueue);    
+    technique5(&suggestions, dic, mem, strInQueue);  
   }
   if(suggestions == 0)
     printf("No se encontraron sugerencias");
