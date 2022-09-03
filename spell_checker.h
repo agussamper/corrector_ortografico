@@ -2,7 +2,6 @@
 #define __SPELL_CHECKER_H__
 
 #include "hashtable/tablahash.h"
-#include "queue/queue.h"
 
 /**
  * Recibe una tabla hash que representa un diccionario,

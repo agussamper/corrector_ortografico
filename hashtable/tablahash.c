@@ -131,7 +131,7 @@ void tablahash_rehash(TablaHash tabla) {
   tabla->capacidad = capacidadAnt * 2;   
   tabla->elems = malloc(sizeof(CasillaHash) * tabla->capacidad);  
   assert(tabla->elems != NULL);
-  for(int i = 0; i < tabla->capacidad; i++) {
+  for(unsigned i = 0; i < tabla->capacidad; i++) {
     tabla->elems[i].dato = NULL;
     tabla->elems[i].dist = 0;
   }  
@@ -139,7 +139,7 @@ void tablahash_rehash(TablaHash tabla) {
 
   FuncionCopiadora aux_cpy = tabla->copia;
   tabla->copia = cpy_return;
-  for(int i = 0; i < capacidadAnt; i++) {
+  for(unsigned i = 0; i < capacidadAnt; i++) {
     if(oldElems[i].dato != NULL) 
       tablahash_insertar(tabla, oldElems[i].dato);
   }
