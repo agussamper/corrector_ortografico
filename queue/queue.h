@@ -44,6 +44,7 @@ void* queue_front(Queue queue);
 // Retorna el elemento que está al final de la cola
 void* queue_rear(Queue queue);
 
+// Devuelve la cantidad de elementa en la cola
 unsigned queue_size(Queue queue);
 
 #endif /* __QUEUE_H__ */

@@ -174,7 +174,6 @@ void *tablahash_buscar(TablaHash tabla, void *dato) {
 /**
  * Elimina el dato de la tabla que coincida con el dato dado.
  */
-//TODO: revisar
 void tablahash_eliminar(TablaHash tabla, void *dato) {
 
   // Calculamos la posicion del dato dado, de acuerdo a la funcion hash.

@@ -2,6 +2,7 @@
 
 #include "IO.h"
 #include "spell_checker.h"
+#include <time.h> 
 
 int main(int argc, char const *argv[]) {
   if(argc != 3){
@@ -11,10 +12,15 @@ int main(int argc, char const *argv[]) {
   const char* pathIn = argv[1];
   const char* pathOut = argv[2];
   
-  TablaHash dic = load_file("dictionaries/es1.txt");
-  spell_check(dic, pathIn, pathOut);
+  clock_t t = clock();
+  TrieNode dic = load_dic("dictionaries/es1.txt");
+  spell_check(dic, pathIn, pathOut);  
 
-  tablahash_destruir(dic);  
+  destroyTrie(dic);
+
+  t = clock() - t;
+  double time_taken = ((double)t)/CLOCKS_PER_SEC; // calculate the elapsed time
+  printf("The program took %f seconds to execute\n", time_taken);
   
   return 0;
 }

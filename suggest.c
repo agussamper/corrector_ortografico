@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-//TODO: Guardar las sugerencias encontradas para una palabra para
-// reusarlas si ya fueron buscadas anteriormente
 void write_suggestion(unsigned *num_suggestions, char* suggestion, FILE *file) {
   if(*num_suggestions == 0)
     fprintf(file, "Quizas quiso decir: %s", suggestion);
@@ -15,10 +13,10 @@ void write_suggestion(unsigned *num_suggestions, char* suggestion, FILE *file) {
   *num_suggestions += 1;
 }
 
-void checkSuggestion(unsigned *suggestions, Queue strObtained, TablaHash dic, 
+void checkSuggestion(unsigned *suggestions, Queue strObtained, TrieNode dic, 
                  TablaHash mem, Char_str* cstr, FILE *file) {
   if(tablahash_buscar(mem, cstr->str) == NULL) {
-    if(tablahash_buscar(dic, cstr->str) != NULL) {
+    if(checkPresent(dic, cstr->str) == 1) {
       write_suggestion(suggestions, cstr->str, file);
       tablahash_insertar(mem, cstr->str);
     }  
@@ -27,7 +25,7 @@ void checkSuggestion(unsigned *suggestions, Queue strObtained, TablaHash dic,
   }
 }
 
-void technique1(unsigned *suggestions, Queue strObt, TablaHash dic,
+void technique1(unsigned *suggestions, Queue strObt, TrieNode dic,
                 TablaHash mem, Char_str* cstr, FILE *file) {
   char modifiedstr[50];
   strcpy(modifiedstr, cstr->str);
@@ -47,43 +45,29 @@ void technique1(unsigned *suggestions, Queue strObt, TablaHash dic,
   }
 }
 
-void technique2(unsigned *suggestions, Queue strObt, TablaHash dic, 
+void technique2(unsigned *suggestions, Queue strObt, TrieNode dic, 
                 TablaHash mem, Char_str* cstr, FILE *file) {
-  char modifiedstr[50];
+  size_t slen = strlen(cstr->str);
+  char modifiedstr[slen+2];
+  modifiedstr[slen + 1] = '\0';
   Char_str mcstr;
   mcstr.ch = cstr->ch;
-  char flag = 0;
-  int k1 = 100;
-  for(int i = 0; i < k1; i++) {
-    char flag2 = 0;
-    int k2 = 100;
-    int j = 0;    
-    for(; j < k2; j++) {
+  for(size_t i = 0; i < slen + 1; i++) {    
+    for(size_t j = 0; j < slen + 1; j++) {
       if(j < i)
         modifiedstr[j] = cstr->str[j];
       else if(j > i)
-        modifiedstr[j] = cstr->str[j-1];
-      if(flag2 == 0 && cstr->str[j] == '\0') {
-        k2 = j + 1;
-        flag2 = 1;
-      }
-    }
-    modifiedstr[j] = '\0';
+        modifiedstr[j] = cstr->str[j-1];      
+    }    
     for(int j = 'a'; j <= 'z'; j++) {
-      if(j != cstr->str[i]) {
-        modifiedstr[i] = j;
-        mcstr.str = modifiedstr;      
-        checkSuggestion(suggestions, strObt, dic, mem, &mcstr, file);
-      }
-    }
-    if(flag == 0 && cstr->str[i] == '\0') {
-      k1 = i + 1;    
-      flag = 1;
+      modifiedstr[i] = j;
+      mcstr.str = modifiedstr;      
+      checkSuggestion(suggestions, strObt, dic, mem, &mcstr, file);
     }
   }
 }
 
-void technique3(unsigned *suggestions, Queue strObt, TablaHash dic,
+void technique3(unsigned *suggestions, Queue strObt, TrieNode dic,
                 TablaHash mem, Char_str* cstr, FILE *file) {
   if(cstr->str[1] != '\0') {    
     char modifiedstr[50];
@@ -106,7 +90,7 @@ void technique3(unsigned *suggestions, Queue strObt, TablaHash dic,
   }
 }
 
-void technique4(unsigned *suggestions, Queue strObt, TablaHash dic,
+void technique4(unsigned *suggestions, Queue strObt, TrieNode dic,
                 TablaHash mem, Char_str* cstr, FILE *file) {
   char aux;
   for(int i = 0; cstr->str[i] != '\0'; i++) {
@@ -121,7 +105,7 @@ void technique4(unsigned *suggestions, Queue strObt, TablaHash dic,
   }
 }
 
-void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem,
+void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem,
                  char* str, FILE *file) {
   for(int i = 0; str[i+1] != '\0'; i++) {
     char str1[50];
@@ -148,8 +132,8 @@ void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem,
         strconcat[j] = str2[j-(i+2)];
     }
     if(tablahash_buscar(mem, strconcat) == NULL) {
-      if(tablahash_buscar(dic, str1) != NULL) {
-        if(tablahash_buscar(dic, str2) != NULL) {
+      if(checkPresent(dic, str1) == 1) {
+        if(checkPresent(dic, str2) == 1) {
           write_suggestion(suggestions, strconcat, file);
           tablahash_insertar(mem, strconcat);
         }
@@ -158,7 +142,7 @@ void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem,
   }
 }
 
-void create_suggestions(TablaHash dic, char* str, FILE *file) {
+void create_suggestions(TrieNode dic, char* str, FILE *file) {
   Queue strsObtained = queue_crear();
   TablaHash mem = tablahash_crear(1000, (FuncionCopiadora)str_cpy,
                                   (FuncionComparadora)strcmp,

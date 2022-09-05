@@ -3,6 +3,7 @@
 
 #include "queue/queue.h"
 #include "hashtable/tablahash.h"
+#include "trie/trie.h"
 #include "type_operations/char_str.h"
 #include <stdio.h>
 
@@ -20,7 +21,7 @@ void write_suggestion(unsigned *num_suggestions, char* suggestion, FILE *file);
  * unsigned* suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * Char_str* cstr: Estructura que guarda un String y un dato de
@@ -29,7 +30,7 @@ void write_suggestion(unsigned *num_suggestions, char* suggestion, FILE *file);
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void checkSuggestion(unsigned *suggestions, Queue strsObtained, 
-                    TablaHash dic, TablaHash mem, Char_str* cstr, FILE *file);
+                    TrieNode dic, TablaHash mem, Char_str* cstr, FILE *file);
 
 /**
  * Intercambia cada par de caracteres adyacentes de cstr->str.
@@ -37,7 +38,7 @@ void checkSuggestion(unsigned *suggestions, Queue strsObtained,
  * unsigned* suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * Char_str* cstr: Estructura que guarda un String y un dato de
@@ -46,7 +47,7 @@ void checkSuggestion(unsigned *suggestions, Queue strsObtained,
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique1(unsigned *suggestions, Queue strsObtained,
-                TablaHash dic, TablaHash mem, Char_str* cstr, FILE *file);
+                TrieNode dic, TablaHash mem, Char_str* cstr, FILE *file);
 
 /**
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
@@ -55,7 +56,7 @@ void technique1(unsigned *suggestions, Queue strsObtained,
  * unsigned* suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * Char_str* cstr: Estructura que guarda un String y un dato de
@@ -64,7 +65,7 @@ void technique1(unsigned *suggestions, Queue strsObtained,
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique2(unsigned *suggestions, Queue strsObtained,
-                TablaHash dic, TablaHash mem, Char_str* cstr, FILE *file);
+                TrieNode dic, TablaHash mem, Char_str* cstr, FILE *file);
 
 /**
  * Elimina cada caracter de cstr->str.
@@ -72,7 +73,7 @@ void technique2(unsigned *suggestions, Queue strsObtained,
  * unsigned* suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * Char_str* cstr: Estructura que guarda un String y un dato de
@@ -81,7 +82,7 @@ void technique2(unsigned *suggestions, Queue strsObtained,
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique3(unsigned *suggestions, Queue strsObtained,
-                TablaHash dic, TablaHash mem, Char_str* cstr, FILE *file);
+                TrieNode dic, TablaHash mem, Char_str* cstr, FILE *file);
 
 /**
  * Reemplaza cada caracter de cstr->str con cada letra de la 'A'
@@ -90,7 +91,7 @@ void technique3(unsigned *suggestions, Queue strsObtained,
  * unsigned* suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * Char_str* cstr: Estructura que guarda un String y un dato de
@@ -99,7 +100,7 @@ void technique3(unsigned *suggestions, Queue strsObtained,
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique4(unsigned *suggestions, Queue strsObtained,
-                TablaHash dic, TablaHash mem, Char_str* cstr, FILE *file);
+                TrieNode dic, TablaHash mem, Char_str* cstr, FILE *file);
 
 
 /**
@@ -107,22 +108,22 @@ void technique4(unsigned *suggestions, Queue strsObtained,
  * par de caracteres adyacentes en la palabra.
  * Suma a suggestions la cantidad de sugerencias encontradas
  * unsigned *suggestions: Guarda la cantidad de sugerencias encontradas
- * TablaHash<char*> dic: Diccionario.
+ * TrieNode<char*> dic: Diccionario.
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * char* str: String que se quiere modificar.
  * FILE *file: Archivo donde se escriben las sugerencias
  */
-void technique5(unsigned *suggestions, TablaHash dic, TablaHash mem, 
+void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem, 
                 char* str, FILE* file);
 
 /**
  * Dado un diccionario, una palabra y un archivo, escribe en file
  * sugerencias para str que se obtienen de aplicar las 5 técnicas.
- * TablaHash<char*> dic: Diccionario
+ * TrieNode dic: Diccionario
  * char* str: string al que se le quiere encontrar sugerencias
  * FILE *file: Archivo donde se escriben las sugerencias
  */
-void create_suggestions(TablaHash dic, char* str, FILE *file);
+void create_suggestions(TrieNode dic, char* str, FILE *file);
 
 #endif

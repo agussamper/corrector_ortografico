@@ -5,18 +5,18 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-void aux_spell_check(TablaHash dic, char* buf,
+void aux_spell_check(TrieNode dic, char* buf,
     unsigned count, unsigned line, FILE* fileOut) {
   if(count > 0) {
     buf[count] = '\0';
-    if(tablahash_buscar(dic, buf) == NULL) {
+    if(checkPresent(dic, buf) == 0) {
       fprintf(fileOut, "Linea %d, '%s' no esta en el diccionario.\n", line, buf);
       create_suggestions(dic, buf, fileOut);
     }
   }
 }
 
-void spell_check(TablaHash dic, const char* pathIn, const char* pathOut) {
+void spell_check(TrieNode dic, const char* pathIn, const char* pathOut) {
   FILE* fileIn = open_file(pathIn, "r");
   FILE* fileOut = open_file(pathOut, "w");
 
