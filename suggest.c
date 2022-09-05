@@ -113,15 +113,15 @@ void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem,
     char strconcat[100];    
 
     int m = 0;
-    for(int m = 0; m < i+1; m++)
+    for(m = 0; m < i+1; m++)
       str1[m] = str[m];
-    str1[m] = '\0';
+    str1[m+1] = '\0';
 
     int k = i+1; 
     for(; str[k] != '\0'; k++)
       str2[k-(i+1)] = str[k];
     strconcat[k+1] = '\0';
-    str2[k] = '\0';
+    str2[k-(i+1)] = '\0';
 
     for(int j = 0; j < k+1; j++) {
       if(j < i+1)
