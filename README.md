@@ -23,6 +23,6 @@ memoria ya que generalmente en los diccionarios muchas palabras comparten sufijo
 por lo tanto, gran parte del espacio que requieran esas palabras sera compartido
 
 ### Conclusión
-Elegí el trie para guardar el diccionario porque prioricé el tiempo de búsqueda sobre
+Elegí el trie para guardar el diccionario porque prioricé el tiempo de ejecución sobre
 el espacio, además muchas de las palabras tienen prefijos comunes lo que hace mucho del
 espacio requerido por las palabras sea compartido.
