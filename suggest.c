@@ -144,7 +144,7 @@ void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem,
 
 void create_suggestions(TrieNode dic, char* str, FILE *file) {
   Queue strsObtained = queue_crear();
-  TablaHash mem = tablahash_crear(1000, (FuncionCopiadora)str_cpy,
+  TablaHash mem = tablahash_crear(500, (FuncionCopiadora)str_cpy,
                                   (FuncionComparadora)strcmp,
                                   (FuncionDestructora)str_free,
                                   (FuncionHash)str_KRHash);
