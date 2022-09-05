@@ -32,6 +32,6 @@ char_str.o: type_operations/char_str.c
 
 clean:
 	rm *.o
-	rm program
+	rm program.out
 
 .PHONY = clean
