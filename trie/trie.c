@@ -1,8 +1,6 @@
 #include "trie.h"
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Estructura de un Trie Node
 struct _TrieNode { 
