@@ -115,7 +115,7 @@ void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem,
     int m = 0;
     for(m = 0; m < i+1; m++)
       str1[m] = str[m];
-    str1[m+1] = '\0';
+    str1[i+1] = '\0';
 
     int k = i+1; 
     for(; str[k] != '\0'; k++)
