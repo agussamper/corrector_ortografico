@@ -17,7 +17,7 @@ FILE* open_file(const char* path, const char* mode) {
 
 TrieNode load_dic(const char* path) {
   FILE* file = open_file(path, "r");
-  int bufSize = 50;
+  int bufSize = 100;
   TrieNode trie = trie_createNode();
   char buf[bufSize];
   unsigned line = 0;
