@@ -25,21 +25,16 @@ void checkSuggestion(unsigned *suggestions, Queue strObtained, TrieNode dic,
 }
 
 void technique1(unsigned *suggestions, Queue strObt, TrieNode dic,
-                TablaHash mem, Int_str* istr, size_t str_len, FILE *file) {
-  char modifiedstr[str_len];
-  strcpy(modifiedstr, istr->str);
-  Int_str mistr;
-  mistr.num = istr->num;
-  for(int i = 0; modifiedstr[i+1] != '\0'; i++) {        
-    if(modifiedstr[i] != modifiedstr[i+1]) {
-      char aux = modifiedstr[i];
-      modifiedstr[i] = modifiedstr[i+1];
-      modifiedstr[i+1] = aux;    
-      mistr.str = modifiedstr;    
-      checkSuggestion(suggestions, strObt, dic, mem, &mistr, file);
-      aux = modifiedstr[i];
-      modifiedstr[i] = modifiedstr[i+1];
-      modifiedstr[i+1] = aux;
+                TablaHash mem, Int_str* istr, FILE *file) {  
+  for(int i = 0; istr->str[i+1] != '\0'; i++) {        
+    if(istr->str[i] != istr->str[i+1]) {
+      char aux = istr->str[i];
+      istr->str[i] = istr->str[i+1];
+      istr->str[i+1] = aux;        
+      checkSuggestion(suggestions, strObt, dic, mem, istr, file);
+      aux = istr->str[i];
+      istr->str[i] = istr->str[i+1];
+      istr->str[i+1] = aux;
     }
   }
 }
@@ -160,7 +155,7 @@ void create_suggestions(TrieNode dic, char* str, FILE *file) {
     istr.num = front->num + 1;
     istr.str = strInQueue;
     queue_dequeue(strsObtained, (FuncionDestructora)int_str_free);
-    technique1(&suggestions, strsObtained, dic, mem, &istr, str_len, file);
+    technique1(&suggestions, strsObtained, dic, mem, &istr, file);
     technique2(&suggestions, strsObtained, dic, mem, &istr, str_len, file);
     technique3(&suggestions, strsObtained, dic, mem, &istr, str_len, file);
     technique4(&suggestions, strsObtained, dic, mem, &istr, file);

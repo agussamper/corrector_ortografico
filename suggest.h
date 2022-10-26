@@ -44,12 +44,11 @@ void checkSuggestion(unsigned *suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
- * size_t str_len: longitud del string en istr->str
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique1(unsigned *suggestions, Queue strsObtained,
                 TrieNode dic, TablaHash mem, Int_str* istr,
-                size_t str_len, FILE *file);
+                FILE *file);
 
 /**
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
