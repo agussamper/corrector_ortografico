@@ -10,10 +10,10 @@ struct _TrieNode {
   // isEnd sirve para comprobar si
   // el nodo representa el ultimo caracter
   // un string o no
-  char isEnd;
+  int isEnd;
 };
  
-TrieNode createTrieNode() {
+TrieNode trie_createNode() {
 	TrieNode trie = malloc(sizeof(struct _TrieNode));
   for (int i = 0; i < 26; i++) { 
     trie->trie[i] = NULL;
@@ -22,12 +22,12 @@ TrieNode createTrieNode() {
 	return trie;
 }
 
-void insertTrie(TrieNode root, char* s) {
+void trie_insert(TrieNode root, char* s) {
   TrieNode temp = root;
   
   for (int i = 0; s[i] != '\0'; i++) {
     if (temp->trie[s[i]-'a'] == NULL) 
-      temp->trie[s[i]-'a'] = createTrieNode();
+      temp->trie[s[i]-'a'] = trie_createNode();
       
     temp = temp->trie[s[i]-'a'];
   }
@@ -37,7 +37,7 @@ void insertTrie(TrieNode root, char* s) {
   temp->isEnd = 1;
 }
  
-char checkPresent(TrieNode root, char* key) {
+int trie_checkPresent(TrieNode root, char* key) {
 
   for (int i = 0; key[i] != '\0'; i++) {
  
@@ -65,7 +65,7 @@ void aux_destroyTrie(TrieNode root) {
   }
 }
 
-void destroyTrie(TrieNode root) {
+void trie_destroy(TrieNode root) {
   aux_destroyTrie(root);
   free(root);
 }

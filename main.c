@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
   TrieNode dic = load_dic("dictionaries/es1.txt");
   spell_check(dic, pathIn, pathOut);  
 
-  destroyTrie(dic);
+  trie_destroy(dic);
 
   t = clock() - t;
   double time_taken = ((double)t)/CLOCKS_PER_SEC; // calculate the elapsed time

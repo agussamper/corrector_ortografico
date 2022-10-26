@@ -3,16 +3,18 @@
 
 typedef struct _TrieNode *TrieNode;
 
+//TODO: cambiar nombre en todas las funciones para que empiecen con trie_...
+
 // Crea y devulve un nodo de tipo trie
-TrieNode createTrieNode();
+TrieNode trie_createNode();
 
 // Inserta un string en el trie
-void insertTrie(TrieNode root, char* s);
+void trie_insert(TrieNode root, char* s);
 
 // Verifica si el string está en el trie o no
-char checkPresent(TrieNode root, char* key);
+int trie_checkPresent(TrieNode root, char* key);
 
 // Destruye el trie
-void destroyTrie(TrieNode root);
+void trie_destroy(TrieNode root);
 
 #endif

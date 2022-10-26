@@ -2,6 +2,15 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+/**
+ *  tablahash que maneja las colisiones con direccionamiento abierto
+ *  (linear probing)
+ *
+ *  Se resuelven los problemas de colisión con la heurística conocida
+ *  como Robin Hood
+ */
+
 /**
  * Casillas en la que almacenaremos los datos de la tabla hash.
  */
