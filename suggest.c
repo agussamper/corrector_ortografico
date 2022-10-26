@@ -25,7 +25,7 @@ void checkSuggestion(unsigned *suggestions, Queue strObtained, TrieNode dic,
 }
 
 void technique1(unsigned *suggestions, Queue strObt, TrieNode dic,
-                TablaHash mem, Int_str* istr, unsigned str_len, FILE *file) {
+                TablaHash mem, Int_str* istr, size_t str_len, FILE *file) {
   char modifiedstr[str_len];
   strcpy(modifiedstr, istr->str);
   Int_str mistr;
@@ -45,7 +45,7 @@ void technique1(unsigned *suggestions, Queue strObt, TrieNode dic,
 }
 
 void technique2(unsigned *suggestions, Queue strObt, TrieNode dic, 
-                TablaHash mem, Int_str* istr, unsigned str_len, FILE *file) {
+                TablaHash mem, Int_str* istr, size_t str_len, FILE *file) {
   char modifiedstr[str_len+2];
   modifiedstr[str_len + 1] = '\0';
   Int_str mistr;
@@ -66,7 +66,7 @@ void technique2(unsigned *suggestions, Queue strObt, TrieNode dic,
 }
 
 void technique3(unsigned *suggestions, Queue strObt, TrieNode dic,
-                TablaHash mem, Int_str* istr, unsigned str_len, FILE *file) {
+                TablaHash mem, Int_str* istr, size_t str_len, FILE *file) {
   if(istr->str[1] != '\0') {    
     char modifiedstr[str_len];
     Int_str mistr;
@@ -104,24 +104,23 @@ void technique4(unsigned *suggestions, Queue strObt, TrieNode dic,
 }
 
 void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem,
-                 char* str, unsigned str_len, FILE *file) {
-  for(int i = 0; str[i+1] != '\0'; i++) {
+                 char* str, size_t str_len, FILE *file) {
+  for(size_t i = 0; str[i+1] != '\0'; i++) {
     char str1[str_len];
     char str2[str_len];
-    char strconcat[str_len+1];    
+    char strconcat[str_len+2];
+    strconcat[str_len+2] = '\0';    
 
-    int m = 0;
-    for(m = 0; m < i+1; m++)
+    for(size_t m = 0; m < i+1; m++)
       str1[m] = str[m];
     str1[i+1] = '\0';
 
-    int k = i+1; 
+    size_t k = i+1;
     for(; str[k] != '\0'; k++)
-      str2[k-(i+1)] = str[k];
-    strconcat[k+1] = '\0';
+      str2[k-(i+1)] = str[k];    
     str2[k-(i+1)] = '\0';
 
-    for(int j = 0; j < k+1; j++) {
+    for(size_t j = 0; j < str_len+2; j++) {
       if(j < i+1)
         strconcat[j] = str1[j];
       else if (j == i+1) 
@@ -155,7 +154,7 @@ void create_suggestions(TrieNode dic, char* str, FILE *file) {
   unsigned suggestions = 0;
   while(suggestions < 5 && !queue_vacia(strsObtained)) {
     front = queue_front(strsObtained);
-    unsigned str_len = strlen(front->str);
+    size_t str_len = strlen(front->str);
     char strInQueue[str_len];
     strcpy(strInQueue, front->str);
     istr.num = front->num + 1;

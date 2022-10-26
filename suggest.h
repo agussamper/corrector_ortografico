@@ -44,12 +44,12 @@ void checkSuggestion(unsigned *suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
- * unsigned str_len: longitud del string en istr->str
+ * size_t str_len: longitud del string en istr->str
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique1(unsigned *suggestions, Queue strsObtained,
                 TrieNode dic, TablaHash mem, Int_str* istr,
-                unsigned str_len, FILE *file);
+                size_t str_len, FILE *file);
 
 /**
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
@@ -64,12 +64,12 @@ void technique1(unsigned *suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
- * unsigned str_len: longitud del string en istr->str
+ * size_t str_len: longitud del string en istr->str
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique2(unsigned *suggestions, Queue strsObtained,
                 TrieNode dic, TablaHash mem, Int_str* istr,
-                unsigned str_len, FILE *file);
+                size_t str_len, FILE *file);
 
 /**
  * Elimina cada caracter de cstr->str.
@@ -83,12 +83,12 @@ void technique2(unsigned *suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
- * unsigned str_len: longitud del string en istr->str
+ * size_t str_len: longitud del string en istr->str
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique3(unsigned *suggestions, Queue strsObtained,
                 TrieNode dic, TablaHash mem, Int_str* istr,
-                unsigned str_len, FILE *file);
+                size_t str_len, FILE *file);
 
 /**
  * Reemplaza cada caracter de cstr->str con cada letra de la 'A'
@@ -119,11 +119,11 @@ void technique4(unsigned *suggestions, Queue strsObtained,
  * TablaHash<char*> mem: Guarda todas las sugerencias encontradas y
  * los strings agregados strObt.
  * char* str: String que se quiere modificar.
- * unsigned str_len: longitud del string en str
+ * size_t str_len: longitud del string en str
  * FILE *file: Archivo donde se escriben las sugerencias
  */
 void technique5(unsigned *suggestions, TrieNode dic, TablaHash mem, 
-                char* str, unsigned str_len, FILE* file);
+                char* str, size_t str_len, FILE* file);
 
 /**
  * Dado un diccionario, una palabra y un archivo, escribe en file
