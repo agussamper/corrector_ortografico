@@ -22,7 +22,7 @@ void spell_check(TrieNode dic, const char* pathIn, const char* pathOut) {
   FILE* fileIn = open_file(pathIn, "r");
   FILE* fileOut = open_file(pathOut, "w");
 
-  Char_arr buf = char_arr_init(5);
+  Char_arr buf = char_arr_init(100);
   char c;
   unsigned count = 0;
   unsigned line = 1;  
