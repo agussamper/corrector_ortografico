@@ -21,6 +21,6 @@ unsigned char_arr_size(Char_arr arr);
 void char_arr_resize(Char_arr arr, unsigned size);
 
 // Devuelve un puntero al string guardado en _Char_str
-char* char_arr_getStr();
+char* char_arr_getStr(Char_arr arr);
 
 #endif

@@ -3,8 +3,6 @@
 
 typedef struct _TrieNode *TrieNode;
 
-//TODO: cambiar nombre en todas las funciones para que empiecen con trie_...
-
 // Crea y devulve un nodo de tipo trie
 TrieNode trie_createNode();
 

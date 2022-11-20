@@ -4,6 +4,29 @@
 #include "spell_checker.h"
 #include <time.h> 
 
+/**
+ * Recibe la ruta de un diccionario y carga todas sus palabras
+ * en una estructura de tipo TrieNode, luego devuelve la
+ * estructura. Se supone que el archivo de texto en cada linea
+ * solo tiene caracteres de la a a la z y las palabras están
+ * en minúscula
+ */
+TrieNode load_dic(const char* path) {
+  FILE* file = open_file(path, "r");
+  int bufSize = 100;
+  TrieNode trie = trie_createNode();
+  char buf[bufSize];
+  unsigned line = 0;
+  while(fgets(buf, bufSize, file)) {
+    size_t slen = strlen(buf);
+    buf[--slen] = '\0'; //Resto 1 a slen por el '\n' //TODO:hacer funcion para que cuente solo las letras
+    trie_insert(trie, buf);
+    line++;
+  }
+  fclose(file);
+  return trie;
+}
+
 int main(int argc, char const *argv[]) {
   if(argc != 3){
     printf("ARGUMENTOS:\n <RUTA> archivo de entrada\n <RUTA> archivo de salida\n");
