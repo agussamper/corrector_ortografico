@@ -19,14 +19,14 @@ void write_suggestion(unsigned *num_suggestions, char *suggestion,
 
 /**
  * Guarda la sugerencia pasada por parametros en suggestions, en
- *  la posicion *num_suggestion
+ * la posicion *num_suggestion
  */
 void save_suggestion(char** suggestions, unsigned *num_suggestion,
                       char* suggestion);
 
 /**
  * Verifica si el dato en cstr->str es una sugerencia válida. Si
- * lo es la imprime en pantalla y aumenta en 1 suggestions. 
+ * lo la escrube en f_out y aumenta en 1 num_suggestions. 
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
@@ -35,13 +35,15 @@ void save_suggestion(char** suggestions, unsigned *num_suggestion,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void checkSuggestion(unsigned *num_suggestions, Queue strsObtained, 
                     TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
 
 /**
  * Intercambia cada par de caracteres adyacentes de cstr->str.
- * Suma a suggestions la cantidad de sugerencias encontradas
+ * Suma a suggestions la cantidad de sugerencias encontradas.
+ * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
@@ -50,6 +52,7 @@ void checkSuggestion(unsigned *num_suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique1(unsigned *num_suggestions, Queue strsObtained,
                 TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
@@ -58,6 +61,7 @@ void technique1(unsigned *num_suggestions, Queue strsObtained,
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
  * de cstr->str.
  * Suma a suggestions la cantidad de sugerencias encontradas
+ * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
@@ -67,6 +71,7 @@ void technique1(unsigned *num_suggestions, Queue strsObtained,
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
  * size_t str_len: longitud del string en istr->str
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique2(unsigned *num_suggestions, Queue strsObtained,
                 TrieNode dic, char** suggestions, Int_str* istr,
@@ -75,6 +80,7 @@ void technique2(unsigned *num_suggestions, Queue strsObtained,
 /**
  * Elimina cada caracter de cstr->str.
  * Suma a suggestions la cantidad de sugerencias encontradas
+ * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
@@ -84,6 +90,7 @@ void technique2(unsigned *num_suggestions, Queue strsObtained,
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
  * size_t str_len: longitud del string en istr->str
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique3(unsigned *num_suggestions, Queue strsObtained,
                 TrieNode dic, char** suggestions, Int_str* istr,
@@ -93,6 +100,7 @@ void technique3(unsigned *num_suggestions, Queue strsObtained,
  * Reemplaza cada caracter de cstr->str con cada letra de la 'A'
  * a la 'z'.
  * Suma a suggestions la cantidad de sugerencias encontradas
+ * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
  * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
  * no se encuentra en mem y si cstr->ch es menor que 3.
@@ -101,6 +109,7 @@ void technique3(unsigned *num_suggestions, Queue strsObtained,
  * Int_str* istr: Estructura que guarda un String y un dato de
  * tipo int el cuál indica la distancia en la que fue obtenida la
  * palabra
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique4(unsigned *num_suggestions, Queue strsObtained,
                 TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
@@ -110,11 +119,13 @@ void technique4(unsigned *num_suggestions, Queue strsObtained,
  * Separa str en un par de palabras agregando un espacio entre cada
  * par de caracteres adyacentes en la palabra.
  * Suma a suggestions la cantidad de sugerencias encontradas
+ * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned *num_suggestions: Guarda la cantidad de sugerencias encontradas
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * char* str: String que se quiere modificar.
  * size_t str_len: longitud del string en str
+ * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique5(unsigned *num_suggestions, TrieNode dic, char** suggestions, 
                 char* str, size_t str_len, FILE* f_out);

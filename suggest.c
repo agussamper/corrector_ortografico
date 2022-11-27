@@ -104,7 +104,7 @@ void technique3(unsigned *num_suggestions, Queue strObt, TrieNode dic,
 void technique4(unsigned *num_suggestions, Queue strObt, TrieNode dic,
                 char** suggestions, Int_str* istr, FILE* f_out) {
   char aux;
-  for(int i = 0; istr->str[i] != '\0'; i++) {
+  for(int i = 0; istr->str[i] != '\0' && *num_suggestions < 5; i++) {
     aux = istr->str[i];
     for(int j = 'a' ; j <= 'z' && *num_suggestions < 5; j++) {
       if(aux != j) {
@@ -173,7 +173,6 @@ char** create_suggestions(TrieNode dic, char* str, FILE *f_out) {
     istr.str = strInQueue;
     queue_dequeue(strsObtained, (FuncionDestructora)int_str_free);    
     technique1(&num_suggestions, strsObtained, dic, suggestions, &istr, f_out);
-    //TODO: agregar condicion para no ejecutar si ya se encontraron 5 o mas sugerencias
     technique2(&num_suggestions, strsObtained, dic, suggestions, &istr, str_len, f_out);
     technique3(&num_suggestions, strsObtained, dic, suggestions, &istr, str_len, f_out);
     technique4(&num_suggestions, strsObtained, dic, suggestions, &istr, f_out);

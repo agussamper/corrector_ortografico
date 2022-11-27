@@ -119,7 +119,12 @@ TablaHash get_calc_suggestions(FILE* file_calc_suggestions) {
   return calc_suggestions;
 }
 
-//TODO: add comments
+/**
+ * Obtiene la cantidad de sugerencias en un arreglo
+ * de 5 caracteres, más específicamente, cuenta de izquierda
+ * a derecha los espacios no nulos del arreglo hasta que
+ * encuentra uno nulo
+ */
 int getNumSuggestions(char** suggestions) {
   if(suggestions == NULL)
     return 0;
@@ -156,14 +161,11 @@ void aux_spell_check(TrieNode dic, char* str,
 
       } else {
         char** suggestions = create_suggestions(dic, str, fileOut);
-        //TODO: solucionar problema de carga en calc_suggestion.txt
-        // Descripcion del problema:
-        /* Si hay una palabra repetida en el input la guarda dos
-         * veces en calc_suggestion.txt
-         * Posible solucion: guardar las sugerencias ya encontradas en una tablahash
-         * usar esas sugerencias para ahorrar futuras busquedas, ademas guardar
-         * en una queue las palabras las palabras a las que se le buscaron sugerencias
-         * y recuperar de la tabla hash las sugerencias
+        /*
+         * guarda las sugerencias ya encontradas en una tablahash
+         * usa esas sugerencias para ahorrar futuras busquedas, ademas guarda
+         * en una queue las palabras a las que se le buscaron sugerencias
+         * para luego poder recuperar de la tabla hash las nuevas sugerencias
          */
         queue_enqueue(misspelled_words, (FuncionCopia)str_cpy, str);
 
