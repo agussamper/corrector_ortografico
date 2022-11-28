@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "IO.h"
 #include "spell_checker.h"
 #include <time.h> 
