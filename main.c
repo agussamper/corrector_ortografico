@@ -1,28 +1,43 @@
-#include<stdio.h>
-
+#include <stdio.h>
 #include "IO.h"
 #include "spell_checker.h"
 #include <time.h> 
+#include "char_arr/char_arr.h"
+#include <ctype.h>
+
+void aux_load_dic(TrieNode trie, Char_arr buf, unsigned* count) {
+  if(*count > 0) {      
+    char_arr_write(buf, *count, '\0');
+    trie_insert(trie, char_arr_getStr(buf));
+    *count = 0;        
+  }      
+}
 
 /**
  * Recibe la ruta de un diccionario y carga todas sus palabras
  * en una estructura de tipo TrieNode, luego devuelve la
- * estructura. Se supone que el archivo de texto en cada linea
- * solo tiene caracteres de la a a la z y las palabras están
- * en minúscula
+ * estructura.
  */
 TrieNode load_dic(const char* path) {
   FILE* file = open_file(path, "r");
-  int bufSize = 100;
   TrieNode trie = trie_createNode();
-  char buf[bufSize];
-  unsigned line = 0;
-  while(fgets(buf, bufSize, file)) {
-    size_t slen = strlen(buf);
-    buf[--slen] = '\0'; //Resto 1 a slen por el '\n'
-    trie_insert(trie, buf);
-    line++;
+
+  Char_arr buf = char_arr_init(100);
+  char c;
+  unsigned count = 0;
+  while((c = fgetc(file)) != EOF) {
+    c = tolower(c);
+    if(('a' <= c) && (c <= 'z')) {
+      if(count > char_arr_size(buf) - 2)
+        char_arr_resize(buf, char_arr_size(buf)*2);
+      char_arr_write(buf, count, c);
+      count++;
+    } else 
+      aux_load_dic(trie, buf, &count);
   }
+  aux_load_dic(trie, buf, &count);
+
+  char_arr_destroy(buf);
   fclose(file);
   return trie;
 }
