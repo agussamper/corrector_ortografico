@@ -19,7 +19,7 @@ TrieNode load_dic(const char* path) {
   unsigned line = 0;
   while(fgets(buf, bufSize, file)) {
     size_t slen = strlen(buf);
-    buf[--slen] = '\0'; //Resto 1 a slen por el '\n' //TODO:hacer funcion para que cuente solo las letras
+    buf[--slen] = '\0'; //Resto 1 a slen por el '\n'
     trie_insert(trie, buf);
     line++;
   }

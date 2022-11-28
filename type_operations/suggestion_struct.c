@@ -16,7 +16,7 @@ Suggestion* suggestion_cpy(Suggestion* suggestion) {
   char** arr_sugg_cpy = sugg_cpy->suggestions;
   char** arr_sugg = suggestion->suggestions;
   for(int i = 0; i < num_suggestions; i++) {
-    arr_sugg_cpy[i] = malloc(sizeof(char) * (strlen(arr_sugg[i])+1)); //TODO: Ver si es posible optimizar
+    arr_sugg_cpy[i] = malloc(sizeof(char) * (strlen(arr_sugg[i])+1));
     strcpy(arr_sugg_cpy[i], arr_sugg[i]);
   }
   return sugg_cpy;

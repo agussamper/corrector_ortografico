@@ -3,10 +3,8 @@
 
 #include "queue/queue.h"
 #include "trie/trie.h"
-#include "type_operations/int_str.h"
+#include "type_operations/str_len_int.h"
 #include <stdio.h>
-
-//TODO: cambiar comentarios por agregado de archivo
 
 /**
  * Dado el número de sugerencias encontradas, un string y un archivo
@@ -14,15 +12,23 @@
  * dandole un formato de salida dependiendo el número de sugerencias
  * ya escritas
  */
-void write_suggestion(unsigned *num_suggestions, char *suggestion,
+void write_suggestion(unsigned num_suggestions, char *suggestion,
                        FILE *f_out);
 
 /**
- * Guarda la sugerencia pasada por parametros en suggestions, en
- * la posicion *num_suggestion
+ * Guarda la sugerencia pasada por parametros en str_len_dist->str
+ * en la posicion num_suggestion
  */
-void save_suggestion(char** suggestions, unsigned *num_suggestion,
-                      char* suggestion);
+void save_suggestion(char** suggestions, unsigned num_suggestion,
+                      Str_len_int* str_len_dist);
+
+/**
+ * Busca en suggestions la sugerencia pasada por parametros, si la 
+ * encuentra devuelve 1, en caso contrario 0.
+ * num_suggestion guarda la cantidad de sugerencias en suggestions
+ */
+int search_suggestion(char** suggestions, unsigned num_suggestion,
+                        char* suggestion);
 
 /**
  * Verifica si el dato en cstr->str es una sugerencia válida. Si
@@ -32,13 +38,13 @@ void save_suggestion(char** suggestions, unsigned *num_suggestion,
  * no se encuentra en mem y si cstr->ch es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * Int_str* istr: Estructura que guarda un String y un dato de
- * tipo int el cuál indica la distancia en la que fue obtenida la
- * palabra
+ * Str_len_dist* str_len_int: Estructura que guarda un String, su longitud y 
+ * la distancia en la que fue obtenida la palabra
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void checkSuggestion(unsigned *num_suggestions, Queue strsObtained, 
-                    TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
+                    TrieNode dic, char** suggestions,
+                    Str_len_int* str_len_dist, FILE* f_out);
 
 /**
  * Intercambia cada par de caracteres adyacentes de cstr->str.
@@ -49,13 +55,13 @@ void checkSuggestion(unsigned *num_suggestions, Queue strsObtained,
  * no se encuentra en mem y si cstr->ch es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * Int_str* istr: Estructura que guarda un String y un dato de
- * tipo int el cuál indica la distancia en la que fue obtenida la
- * palabra
+ * Str_len_int* str_len_int: Estructura que guarda un String, su longitud y
+ * la distancia en la que fue obtenida la palabra
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique1(unsigned *num_suggestions, Queue strsObtained,
-                TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
+                TrieNode dic, char** suggestions,
+                Str_len_int* str_len_dist, FILE* f_out);
 
 /**
  * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
@@ -67,15 +73,13 @@ void technique1(unsigned *num_suggestions, Queue strsObtained,
  * no se encuentra en mem y si cstr->ch es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * Int_str* istr: Estructura que guarda un String y un dato de
- * tipo int el cuál indica la distancia en la que fue obtenida la
- * palabra
- * size_t str_len: longitud del string en istr->str
+ * Str_len_int* str_len_dist: Estructura que guarda un String,
+ * su longitud y la distancia en la que fue obtenida la palabra
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique2(unsigned *num_suggestions, Queue strsObtained,
-                TrieNode dic, char** suggestions, Int_str* istr,
-                size_t str_len, FILE* f_out);
+                TrieNode dic, char** suggestions,
+                 Str_len_int* str_len_int, FILE* f_out);
 
 /**
  * Elimina cada caracter de cstr->str.
@@ -86,15 +90,13 @@ void technique2(unsigned *num_suggestions, Queue strsObtained,
  * no se encuentra en mem y si cstr->ch es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * Int_str* istr: Estructura que guarda un String y un dato de
- * tipo int el cuál indica la distancia en la que fue obtenida la
- * palabra
- * size_t str_len: longitud del string en istr->str
+ * Str_len_int* str_len_int: Estructura que guarda un String, su longitud 
+ * y la distancia en la que fue obtenida la palabra 
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique3(unsigned *num_suggestions, Queue strsObtained,
-                TrieNode dic, char** suggestions, Int_str* istr,
-                size_t str_len, FILE* f_out);
+                TrieNode dic, char** suggestions,
+                Str_len_int* str_len_dist, FILE* f_out);
 
 /**
  * Reemplaza cada caracter de cstr->str con cada letra de la 'A'
@@ -106,14 +108,13 @@ void technique3(unsigned *num_suggestions, Queue strsObtained,
  * no se encuentra en mem y si cstr->ch es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * Int_str* istr: Estructura que guarda un String y un dato de
- * tipo int el cuál indica la distancia en la que fue obtenida la
- * palabra
+ * Str_len_int* str_len_int: Estructura que guarda un String, su longitud y 
+ * la distancia en la que fue obtenida la palabra
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique4(unsigned *num_suggestions, Queue strsObtained,
-                TrieNode dic, char** suggestions, Int_str* istr, FILE* f_out);
-
+                TrieNode dic, char** suggestions,
+                Str_len_int* str_len_dist, FILE* f_out);
 
 /**
  * Separa str en un par de palabras agregando un espacio entre cada
@@ -123,12 +124,12 @@ void technique4(unsigned *num_suggestions, Queue strsObtained,
  * unsigned *num_suggestions: Guarda la cantidad de sugerencias encontradas
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
- * char* str: String que se quiere modificar.
- * size_t str_len: longitud del string en str
+ * Str_len_int* str_len_int: Estructura que guarda un String, su longitud y 
+ * la distancia en la que fue obtenida la palabra
  * File* f_out: archivo donde se escriben las sugerencias
  */
 void technique5(unsigned *num_suggestions, TrieNode dic, char** suggestions, 
-                char* str, size_t str_len, FILE* f_out);
+                Str_len_int* str_len_dist, FILE* f_out);
 
 /**
  * Dado un diccionario, una palabra y dos archivos, escribe en f_out

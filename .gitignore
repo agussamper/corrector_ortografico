@@ -9,3 +9,4 @@ test_suggest.c
 out.txt
 calc_suggestions.txt
 dictionaries/words_alpha.txt
+analysis.txt

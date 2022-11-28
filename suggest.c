@@ -4,25 +4,22 @@
 #include <stdlib.h>
 #include <assert.h>
 
-void write_suggestion(unsigned *num_suggestions, char *suggestion, FILE *f_out) {
-  if(*num_suggestions == 0)
+void write_suggestion(unsigned num_suggestions, char *suggestion, FILE *f_out) {
+  if(num_suggestions == 0)
     fprintf(f_out, "Quizas quiso decir: %s", suggestion);
   else
     fprintf(f_out, ", %s", suggestion);  
 }
 
-void save_suggestion(char** suggestions, unsigned *num_suggestion,
-                      char* suggestion) { //TODO: cambiar para que reciba istr en cambio de suggestion
-  suggestions[*num_suggestion] = malloc(sizeof(char) * (strlen(suggestion)+1));
-  strcpy(suggestions[*num_suggestion], suggestion);
+void save_suggestion(char** suggestions, unsigned num_suggestion,
+                      Str_len_int* str_len_dist) {
+  suggestions[num_suggestion] = malloc(sizeof(char) * (str_len_dist->len_str +1));
+  strcpy(suggestions[num_suggestion], str_len_dist->str);
 }
 
-// Busca en suggestions la sugerencia pasada por parametros, si la
-// encuentra devuelve 1, en caso contrario 0
-int serach_suggestion(char** suggestions, unsigned *num_suggestion,
-                        char* suggestion) {
-  unsigned num_sugg = *num_suggestion;
-  for(unsigned i = 0; i < num_sugg; i++) {
+int search_suggestion(char** suggestions, unsigned num_suggestion,
+                        char* suggestion) {                          
+  for(unsigned i = 0; i < num_suggestion; i++) {
     if(strcmp(suggestions[i], suggestion) == 0)
       return 1; 
   }
@@ -30,110 +27,121 @@ int serach_suggestion(char** suggestions, unsigned *num_suggestion,
 }
 
 void checkSuggestion(unsigned *num_suggestions, Queue strObtained, TrieNode dic, 
-                 char** suggestions, Int_str* istr, FILE* f_out) {
-  if(serach_suggestion(suggestions, num_suggestions, istr->str) == 0) {
-    if(trie_checkPresent(dic, istr->str) == 1) {
-      write_suggestion(num_suggestions, istr->str, f_out);
-      save_suggestion(suggestions, num_suggestions, istr->str);      
+                 char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {
+  if(search_suggestion(suggestions, *num_suggestions, str_len_dist->str) == 0) {
+    if(trie_checkPresent(dic, str_len_dist->str) == 1) {
+      write_suggestion(*num_suggestions, str_len_dist->str, f_out);
+      save_suggestion(suggestions, *num_suggestions, str_len_dist);      
       *num_suggestions += 1;
     }  
-    if(istr->num < 3)
-      queue_enqueue(strObtained, (FuncionCopia)int_str_cpy, istr);    
+    if(str_len_dist->num < 3)
+      queue_enqueue(strObtained, (FuncionCopia)str_len_int_cpy, str_len_dist);    
   }
 }
 
 void technique1(unsigned *num_suggestions, Queue strObt, TrieNode dic,
-                char** suggestions, Int_str* istr, FILE* f_out) {  
-  for(int i = 0; istr->str[i+1] != '\0' && *num_suggestions < 5; i++) {        
-    if(istr->str[i] != istr->str[i+1]) {
-      char aux = istr->str[i];
-      istr->str[i] = istr->str[i+1];
-      istr->str[i+1] = aux;        
-      checkSuggestion(num_suggestions, strObt, dic, suggestions, istr, f_out);
-      aux = istr->str[i];
-      istr->str[i] = istr->str[i+1];
-      istr->str[i+1] = aux;
+                char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {  
+  char* str = str_len_dist->str;
+  for(int i = 0; str[i+1] != '\0' && *num_suggestions < 5; i++) {        
+    if(str[i] != str[i+1]) {
+      char aux = str[i];
+      str[i] = str[i+1];
+      str[i+1] = aux;        
+      checkSuggestion(num_suggestions, strObt, dic,
+                       suggestions, str_len_dist, f_out);
+      aux = str[i];
+      str[i] = str[i+1];
+      str[i+1] = aux;
     }
   }
 }
 
 void technique2(unsigned *num_suggestions, Queue strObt, TrieNode dic, 
-                char** suggestions, Int_str* istr, size_t str_len, FILE* f_out) {
+                char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {
+  char* str = str_len_dist->str;
+  unsigned str_len = str_len_dist->len_str;
   char modifiedstr[str_len+2];
   modifiedstr[str_len + 1] = '\0';
-  Int_str mistr;
-  mistr.num = istr->num;
-  for(size_t i = 0; i < str_len + 1 && *num_suggestions < 5; i++) {    
-    for(size_t j = 0; j < str_len + 1; j++) {
+  Str_len_int mstr_len_dist;
+  mstr_len_dist.len_str = str_len_dist->len_str + 1;
+  mstr_len_dist.num = str_len_dist->num;
+  for(unsigned i = 0; i < str_len + 1 && *num_suggestions < 5; i++) {    
+    for(unsigned j = 0; j < str_len + 1; j++) {
       if(j < i)
-        modifiedstr[j] = istr->str[j];
+        modifiedstr[j] = str[j];
       else if(j > i)
-        modifiedstr[j] = istr->str[j-1];      
+        modifiedstr[j] = str[j-1];      
     }    
     for(int j = 'a'; j <= 'z' && *num_suggestions < 5; j++) {
       modifiedstr[i] = j;
-      mistr.str = modifiedstr;      
-      checkSuggestion(num_suggestions, strObt, dic, suggestions, &mistr, f_out);
+      mstr_len_dist.str = modifiedstr;      
+      checkSuggestion(num_suggestions, strObt, dic, suggestions, &mstr_len_dist, f_out);
     }
   }
 }
 
 void technique3(unsigned *num_suggestions, Queue strObt, TrieNode dic,
-                char** suggestions, Int_str* istr, size_t str_len, FILE* f_out) {
-  if(istr->str[1] != '\0') {    
+                char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {
+  char* str = str_len_dist->str;
+  if(str[1] != '\0') {
+    unsigned str_len = str_len_dist->len_str;    
     char modifiedstr[str_len];
-    Int_str mistr;
-    mistr.num = istr->num;
-    for(int i = 0; istr->str[i] != '\0' && *num_suggestions < 5; i++) {
-      if(istr->str[i] != istr->str[i+1]) {
+    Str_len_int mstr_len_dist;
+    mstr_len_dist.len_str = str_len-1;
+    mstr_len_dist.num = str_len_dist->num;
+    for(int i = 0; str[i] != '\0' && *num_suggestions < 5; i++) {
+      if(str[i] != str[i+1]) {
         int j = 0;
-        for(; istr->str[j] != '\0'; j++) {
+        for(; str[j] != '\0'; j++) {
           if(j < i)
-            modifiedstr[j] = istr->str[j];
+            modifiedstr[j] = str[j];
           else if(j > i)
-            modifiedstr[j-1] = istr->str[j];
+            modifiedstr[j-1] = str[j];
         }
         modifiedstr[j-1] = '\0';    
-        mistr.str = modifiedstr;
-        checkSuggestion(num_suggestions, strObt, dic, suggestions, &mistr, f_out);
+        mstr_len_dist.str = modifiedstr;
+        checkSuggestion(num_suggestions, strObt, dic, suggestions, &mstr_len_dist, f_out);
       }
     }
   }
 }
 
 void technique4(unsigned *num_suggestions, Queue strObt, TrieNode dic,
-                char** suggestions, Int_str* istr, FILE* f_out) {
+                char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {
   char aux;
-  for(int i = 0; istr->str[i] != '\0' && *num_suggestions < 5; i++) {
-    aux = istr->str[i];
+  char* str = str_len_dist->str;
+  for(int i = 0; str[i] != '\0' && *num_suggestions < 5; i++) {
+    aux = str[i];
     for(int j = 'a' ; j <= 'z' && *num_suggestions < 5; j++) {
       if(aux != j) {
-        istr->str[i] = j;
-        checkSuggestion(num_suggestions, strObt, dic, suggestions, istr, f_out);
+        str[i] = j;
+        checkSuggestion(num_suggestions, strObt, dic, suggestions, str_len_dist, f_out);
       }
     }
-    istr->str[i] = aux;
+    str[i] = aux;
   }
 }
 
 void technique5(unsigned *num_suggestions, TrieNode dic, char** suggestions,
-                 char* str, size_t str_len, FILE* f_out) {
-  for(size_t i = 0; str[i+1] != '\0' && *num_suggestions < 5; i++) {
+                 Str_len_int* str_len_dist, FILE* f_out) {
+  char* str = str_len_dist->str;
+  unsigned str_len = str_len_dist->len_str;
+  for(unsigned i = 0; str[i+1] != '\0' && *num_suggestions < 5; i++) {
     char str1[str_len];
     char str2[str_len];
     char strconcat[str_len+2];
     strconcat[str_len+2] = '\0';    
 
-    for(size_t m = 0; m < i+1; m++)
+    for(unsigned m = 0; m < i+1; m++)
       str1[m] = str[m];
     str1[i+1] = '\0';
 
-    size_t k = i+1;
+    unsigned k = i+1;
     for(; str[k] != '\0'; k++)
       str2[k-(i+1)] = str[k];    
     str2[k-(i+1)] = '\0';
 
-    for(size_t j = 0; j < str_len+2; j++) {
+    for(unsigned j = 0; j < str_len+2; j++) {
       if(j < i+1)
         strconcat[j] = str1[j];
       else if (j == i+1) 
@@ -141,11 +149,15 @@ void technique5(unsigned *num_suggestions, TrieNode dic, char** suggestions,
       else
         strconcat[j] = str2[j-(i+2)];
     }
-    if(serach_suggestion(suggestions, num_suggestions, strconcat) == 0) {
+    if(search_suggestion(suggestions, *num_suggestions, strconcat) == 0) {
       if(trie_checkPresent(dic, str1) == 1) {
         if(trie_checkPresent(dic, str2) == 1) {
-          write_suggestion(num_suggestions, strconcat, f_out);
-          save_suggestion(suggestions, num_suggestions, strconcat);
+          write_suggestion(*num_suggestions, strconcat, f_out);
+
+          Str_len_int new_suggestion;
+          new_suggestion.str = strconcat;
+          new_suggestion.len_str = str_len+1;
+          save_suggestion(suggestions, *num_suggestions, &new_suggestion);
           *num_suggestions += 1;
         }
       }
@@ -155,28 +167,30 @@ void technique5(unsigned *num_suggestions, TrieNode dic, char** suggestions,
 
 char** create_suggestions(TrieNode dic, char* str, FILE *f_out) {
   Queue strsObtained = queue_crear();  
-  Int_str istr;
-  istr.str = str;
-  istr.num = 0;
-  queue_enqueue(strsObtained, (FuncionCopia)int_str_cpy, &istr);  
-  Int_str* front;
+  Str_len_int str_len_dist;
+  
+  str_len_dist.str = str;
+  str_len_dist.len_str = strlen(str);
+  str_len_dist.num = 0;
+  queue_enqueue(strsObtained, (FuncionCopia)str_len_int_cpy, &str_len_dist);  
+  Str_len_int* front;
   char** suggestions = malloc(sizeof(char*) * 5);
   for(int i = 0; i < 5; i++)
     suggestions[i] = NULL;
   unsigned num_suggestions = 0;
   while(num_suggestions < 5 && !queue_vacia(strsObtained)) {
-    front = queue_front(strsObtained);
-    size_t str_len = strlen(front->str); //TODO: guardar strlen directamente en istr
-    char strInQueue[str_len];
+    front = queue_front(strsObtained);    
+    char strInQueue[front->len_str];
     strcpy(strInQueue, front->str);
-    istr.num = front->num + 1;
-    istr.str = strInQueue;
-    queue_dequeue(strsObtained, (FuncionDestructora)int_str_free);    
-    technique1(&num_suggestions, strsObtained, dic, suggestions, &istr, f_out);
-    technique2(&num_suggestions, strsObtained, dic, suggestions, &istr, str_len, f_out);
-    technique3(&num_suggestions, strsObtained, dic, suggestions, &istr, str_len, f_out);
-    technique4(&num_suggestions, strsObtained, dic, suggestions, &istr, f_out);
-    technique5(&num_suggestions, dic, suggestions, strInQueue, str_len, f_out);  
+    str_len_dist.num = front->num + 1;
+    str_len_dist.str = strInQueue;
+    str_len_dist.len_str = front->len_str;
+    queue_dequeue(strsObtained, (FuncionDestructora)str_len_int_free);    
+    technique1(&num_suggestions, strsObtained, dic, suggestions, &str_len_dist, f_out);
+    technique2(&num_suggestions, strsObtained, dic, suggestions, &str_len_dist, f_out);
+    technique3(&num_suggestions, strsObtained, dic, suggestions, &str_len_dist, f_out);
+    technique4(&num_suggestions, strsObtained, dic, suggestions, &str_len_dist, f_out);
+    technique5(&num_suggestions, dic, suggestions, &str_len_dist, f_out);  
   }
   if(num_suggestions == 0) {
     fputs("No se encontraron sugerencias", f_out);
@@ -184,6 +198,6 @@ char** create_suggestions(TrieNode dic, char* str, FILE *f_out) {
     suggestions = NULL;
   }
   fputs("\n\n", f_out);
-  queue_destruir(strsObtained, (FuncionDestructora)int_str_free);
+  queue_destruir(strsObtained, (FuncionDestructora)str_len_int_free);
   return suggestions;
 }

@@ -1,6 +1,6 @@
-FLAGS = -g -Wall -Wextra -std=c99
+FLAGS = -Wall -Wextra -std=c99
 
-program.out: main.o suggest.o spell_checker.o IO.o trie.o tablahash.o queue.o strFunc.o int_str.o char_arr.o suggestion_struct.o
+program.out: main.o suggest.o spell_checker.o IO.o trie.o tablahash.o queue.o strFunc.o str_len_int.o char_arr.o suggestion_struct.o
 	$(CC) -o $@ $^ $(FLAGS)
 
 main.o: main.c IO.o spell_checker.o
@@ -9,7 +9,7 @@ main.o: main.c IO.o spell_checker.o
 IO.o: IO.c  strFunc.o trie.o
 	$(CC) -c $< $(FLAGS)
 
-suggest.o: suggest.c strFunc.o queue.o int_str.o trie.o
+suggest.o: suggest.c strFunc.o queue.o str_len_int.o trie.o
 	$(CC) -c $< $(FLAGS)
 
 spell_checker.o: spell_checker.c IO.o trie.o char_arr.o suggestion_struct.o
@@ -30,7 +30,7 @@ suggestion_struct.o: type_operations/suggestion_struct.c strFunc.o
 strFunc.o: type_operations/strFunc.c
 	$(CC) -c $< $(FLAGS)
 
-int_str.o: type_operations/int_str.c
+str_len_int.o: type_operations/str_len_int.c
 	$(CC) -c $< $(FLAGS)
 
 char_arr.o: char_arr/char_arr.c
