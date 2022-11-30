@@ -1,5 +1,4 @@
 #include "suggest.h"
-#include "type_operations/strFunc.h"
 #include "type_operations/str_len_int.h"
 #include "queue/queue.h"
 #include <string.h>
@@ -44,11 +43,11 @@ int search_suggestion(char** suggestions, unsigned num_suggestion,
 }
 
 /**
- * Verifica si el dato en cstr->str es una sugerencia válida. Si
+ * Verifica si el dato en str_len_dist->str es una sugerencia válida. Si
  * lo la escrube en f_out y aumenta en 1 num_suggestions. 
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
- * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
- * no se encuentra en mem y si cstr->ch es menor que 3.
+ * Queue<Char_str*> strObt: Guarda str_len_dist->str si str_len_dist->str
+ * no se encuentra en mem y si str_len_dist->num es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * Str_len_dist* str_len_int: Estructura que guarda una posible
@@ -70,12 +69,12 @@ void checkSuggestion(unsigned *num_suggestions, Queue strObtained, TrieNode dic,
 }
 
 /**
- * Intercambia cada par de caracteres adyacentes de cstr->str.
+ * Intercambia cada par de caracteres adyacentes de str_len_dist->str.
  * Suma a num_suggestions la cantidad de sugerencias encontradas.
  * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
- * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
- * no se encuentra en mem y si cstr->ch es menor que 3.
+ * Queue<Char_str*> strObt: Guarda str_len_dist->str si str_len_dist->str
+ * no se encuentra en mem y si str_len_dist->num es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * Str_len_int* str_len_int: Estructura que guarda una posible 
@@ -101,13 +100,13 @@ void technique1(unsigned *num_suggestions, Queue strObt, TrieNode dic,
 }
 
 /**
- * Inserta cada letra de la 'A' a la 'Z' en cualquier posición
- * de cstr->str.
+ * Inserta cada letra de la 'A' a la 'Z' en cada posición
+ * de str_len_dist->str.
  * Suma a num_suggestions la cantidad de sugerencias encontradas
  * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
- * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
- * no se encuentra en mem y si cstr->ch es menor que 3.
+ * Queue<Char_str*> strObt: Guarda str_len_dist->str si str_len_dist->str
+ * no se encuentra en mem y si str_len_dist->num es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * Str_len_int* str_len_dist: Estructura que guarda una posible 
@@ -140,12 +139,12 @@ void technique2(unsigned *num_suggestions, Queue strObt, TrieNode dic,
 }
 
 /**
- * Elimina cada caracter de cstr->str.
+ * Elimina cada caracter de str_len_dist->str.
  * Suma a num_suggestions la cantidad de sugerencias encontradas
  * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
- * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
- * no se encuentra en mem y si cstr->ch es menor que 3.
+ * Queue<Char_str*> strObt: Guarda str_len_dist->str si str_len_dist->str
+ * no se encuentra en mem y si str_len_dist->num es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * Str_len_int* str_len_int: Estructura que guarda una posible 
@@ -180,13 +179,13 @@ void technique3(unsigned *num_suggestions, Queue strObt, TrieNode dic,
 }
 
 /**
- * Reemplaza cada caracter de cstr->str con cada letra de la 'A'
+ * Reemplaza cada caracter de str_len_dist->str con cada letra de la 'A'
  * a la 'z'.
  * Suma a num_suggestions la cantidad de sugerencias encontradas
  * Busca y escribe sugerencias mientras que num_suggestions sea menor que 5
  * unsigned* num_suggestions: Guarda la cantidad de sugerencias.
- * Queue<Char_str*> strObt: Guarda cstr->str si cstr->str
- * no se encuentra en mem y si cstr->ch es menor que 3.
+ * Queue<Char_str*> strObt: Guarda str_len_dist->str si str_len_dist->str
+ * no se encuentra en mem y si str_len_dist->num es menor que 3.
  * TrieNode<char*> dic: Diccionario.
  * char** suggestions: Guarda las sugerencias encontradas
  * Str_len_int* str_len_int: Estructura que guarda una posible sugerencia

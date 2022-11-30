@@ -9,7 +9,7 @@ main.o: main.c IO.o spell_checker.o
 IO.o: IO.c  strFunc.o trie.o
 	$(CC) -c $< $(FLAGS)
 
-suggest.o: suggest.c strFunc.o queue.o str_len_int.o trie.o
+suggest.o: suggest.c queue.o str_len_int.o trie.o
 	$(CC) -c $< $(FLAGS)
 
 spell_checker.o: spell_checker.c IO.o trie.o char_arr.o suggestion_struct.o queue.o
