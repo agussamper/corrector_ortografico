@@ -2,6 +2,7 @@
 #include "IO.h"
 #include "suggest.h"
 #include "char_arr/char_arr.h"
+#include "queue/queue.h"
 #include "type_operations/suggestion_struct.h"
 #include "type_operations/strFunc.h"
 #include <stdio.h>

@@ -12,7 +12,7 @@ IO.o: IO.c  strFunc.o trie.o
 suggest.o: suggest.c strFunc.o queue.o str_len_int.o trie.o
 	$(CC) -c $< $(FLAGS)
 
-spell_checker.o: spell_checker.c IO.o trie.o char_arr.o suggestion_struct.o
+spell_checker.o: spell_checker.c IO.o trie.o char_arr.o suggestion_struct.o queue.o
 	$(CC) -c $< $(FLAGS)
 
 tablahash.o: hashtable/tablahash.c
