@@ -9,7 +9,10 @@ TrieNode trie_createNode();
 // Inserta un string en el trie
 void trie_insert(TrieNode root, char* s);
 
-// Verifica si el string está en el trie o no
+/**
+ * Verifica si el string está en el trie o no.
+ * Si está presenta devuelve 1, en caso contrario 0 
+ */
 int trie_checkPresent(TrieNode root, char* key);
 
 // Destruye el trie
