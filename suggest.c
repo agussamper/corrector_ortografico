@@ -57,15 +57,17 @@ int search_suggestion(char** suggestions, unsigned num_suggestion,
  */
 void checkSuggestion(unsigned *num_suggestions, Queue strObtained, TrieNode dic, 
                  char** suggestions, Str_len_int* str_len_dist, FILE* f_out) {
-  if(search_suggestion(suggestions, *num_suggestions, str_len_dist->str) == 0) {
-    if(trie_checkPresent(dic, str_len_dist->str) == 1) {
+  int isInSuggestions = 0;
+  if(trie_checkPresent(dic, str_len_dist->str) == 1) {
+    if(search_suggestion(suggestions, *num_suggestions, str_len_dist->str) == 0) {    
       write_suggestion(*num_suggestions, str_len_dist->str, f_out);
       save_suggestion(suggestions, *num_suggestions, str_len_dist);      
       *num_suggestions += 1;
-    }  
-    if(str_len_dist->num < 3)
-      queue_enqueue(strObtained, (FuncionCopia)str_len_int_cpy, str_len_dist);    
+    } else
+      isInSuggestions = 1;
   }
+  if(str_len_dist->num < 3 && isInSuggestions == 0)
+      queue_enqueue(strObtained, (FuncionCopia)str_len_int_cpy, str_len_dist);    
 }
 
 /**
