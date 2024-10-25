@@ -1,6 +1,6 @@
 # Corrector ortográfico
 
-Corrector ortográfico hecho como trabajo práctico final de la materias Estructura de Datos y Algoritmos I. 
+Corrector ortográfico hecho como trabajo práctico final de la materia Estructura de Datos y Algoritmos I. 
 
 Este programa lee un archivo de diccionario, toma un archivo de texto de entrada y por cada error ortográfico encontrado el programa entrega una lista de sugerencias (si es que hay alguna).
 
